@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=3 uid="uid://cso60hihmbwrx"]
+
+[ext_resource type="Script" path="res://Scripts/touch_controls.gd" id="1_5ecqw"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_mkk4t"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_o4p5u"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_igk3y"]
+
+[node name="TouchControls" type="CanvasLayer"]
+script = ExtResource("1_5ecqw")
+
+[node name="Advance" type="TouchScreenButton" parent="."]
+position = Vector2(450, 500)
+scale = Vector2(78.049, 80)
+texture_normal = SubResource("PlaceholderTexture2D_mkk4t")
+action = "advanceRunners"
+
+[node name="Return" type="TouchScreenButton" parent="."]
+position = Vector2(600, 500)
+scale = Vector2(80, 80)
+texture_normal = SubResource("PlaceholderTexture2D_o4p5u")
+action = "returnRunners"
+
+[node name="Swing" type="TouchScreenButton" parent="."]
+position = Vector2(0, 489)
+scale = Vector2(160, 160)
+texture_normal = SubResource("PlaceholderTexture2D_igk3y")
+action = "swing"
+
+[connection signal="pressed" from="Advance" to="." method="_on_advance_pressed"]
+[connection signal="released" from="Advance" to="." method="_on_advance_released"]
