@@ -4,11 +4,11 @@
 [ext_resource type="PackedScene" uid="uid://cso60hihmbwrx" path="res://Scenes/touch_conrrols.tscn" id="2_wao6q"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pbuts"]
-size = Vector2(129, 1)
+size = Vector2(175, 1.5)
 
 [node name="Node2D" type="Node2D"]
 
-[node name="CharacterBody2D" parent="." instance=ExtResource("1_snma1")]
+[node name="batter" parent="." instance=ExtResource("1_snma1")]
 position = Vector2(-13, -31)
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -18,7 +18,7 @@ zoom = Vector2(6, 6)
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(-10.5, -7.5)
+position = Vector2(-20.5, -19.75)
 shape = SubResource("RectangleShape2D_pbuts")
 
 [node name="Control" type="Control" parent="."]
@@ -28,3 +28,4 @@ offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="TouchConrrols" parent="Control" instance=ExtResource("2_wao6q")]
+player_path = NodePath("../../batter")

@@ -12,13 +12,13 @@
 script = ExtResource("1_5ecqw")
 
 [node name="Advance" type="TouchScreenButton" parent="."]
-position = Vector2(450, 500)
+position = Vector2(1024, 523)
 scale = Vector2(78.049, 80)
 texture_normal = SubResource("PlaceholderTexture2D_mkk4t")
 action = "advanceRunners"
 
 [node name="Return" type="TouchScreenButton" parent="."]
-position = Vector2(600, 500)
+position = Vector2(880, 523)
 scale = Vector2(80, 80)
 texture_normal = SubResource("PlaceholderTexture2D_o4p5u")
 action = "returnRunners"
@@ -31,3 +31,7 @@ action = "swing"
 
 [connection signal="pressed" from="Advance" to="." method="_on_advance_pressed"]
 [connection signal="released" from="Advance" to="." method="_on_advance_released"]
+[connection signal="pressed" from="Return" to="." method="_on_return_pressed"]
+[connection signal="released" from="Return" to="." method="_on_return_released"]
+[connection signal="pressed" from="Swing" to="." method="_on_swing_pressed"]
+[connection signal="released" from="Swing" to="." method="_on_swing_released"]
