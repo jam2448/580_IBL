@@ -5,18 +5,19 @@
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_ddpt5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0kg6p"]
-size = Vector2(1, 4.5)
+size = Vector2(2, 4.125)
 
 [node name="Base" type="Area2D"]
 collision_mask = 2
 script = ExtResource("1_yaupi")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(2, 0.5)
+position = Vector2(2.23517e-07, 1.15625)
+scale = Vector2(4, 0.3125)
 texture = SubResource("PlaceholderTexture2D_ddpt5")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -2)
+position = Vector2(0, -1)
 shape = SubResource("RectangleShape2D_0kg6p")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
