@@ -1,12 +1,15 @@
-extends Node
+extends RigidBody2D
 
+#set the speed & direction of the ball
+@export var speed = 400.0
 
-#data that will be needed to keep the game running and store game data
-var score = 0
+var direction = Vector2.LEFT
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	linear_velocity = direction.normalized() * speed
+	set_collision_mask_value(1, false)
+	pass
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

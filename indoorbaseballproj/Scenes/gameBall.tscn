@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://bkdvabqt0oysw"]
+
+[ext_resource type="Script" path="res://Scripts/ball.gd" id="1_c5u8g"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_n2msx"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vrjb3"]
+radius = 2.0
+
+[node name="GameBall" type="RigidBody2D"]
+collision_layer = 2
+collision_mask = 3
+script = ExtResource("1_c5u8g")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-5.96046e-08, 5.96046e-08)
+scale = Vector2(3.5, 3.5)
+texture = SubResource("PlaceholderTexture2D_n2msx")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_vrjb3")
