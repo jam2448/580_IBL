@@ -1,29 +1,30 @@
-[gd_scene load_steps=7 format=3 uid="uid://ch8h73shj8bmj"]
+[gd_scene load_steps=8 format=3 uid="uid://ch8h73shj8bmj"]
 
 [ext_resource type="PackedScene" uid="uid://b8ecnkfc65q3" path="res://Scenes/batter.tscn" id="1_snma1"]
 [ext_resource type="PackedScene" uid="uid://cso60hihmbwrx" path="res://Scenes/touch_conrrols.tscn" id="2_wao6q"]
 [ext_resource type="PackedScene" uid="uid://dfqkruki0gsy7" path="res://Scenes/base.tscn" id="3_t7pfu"]
 [ext_resource type="Script" path="res://Scripts/game_manager.gd" id="4_4mkok"]
 [ext_resource type="PackedScene" uid="uid://c4fuudd1n6kqx" path="res://Scenes/pitcherAI.tscn" id="5_lula8"]
+[ext_resource type="PackedScene" uid="uid://dwv5vjo0xkpfw" path="res://Scenes/strikeZone.tscn" id="6_4r4bg"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pbuts"]
-size = Vector2(185.5, 7.75)
+size = Vector2(384, 7.75)
 
 [node name="Node2D" type="Node2D"]
 
 [node name="batter" parent="." instance=ExtResource("1_snma1")]
-position = Vector2(-88, -48)
+position = Vector2(-144, -26)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(-13, -31)
-zoom = Vector2(6, 6)
+zoom = Vector2(3, 3)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 collision_layer = 8
 collision_mask = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(-15, -17)
+position = Vector2(-13, -7)
 shape = SubResource("RectangleShape2D_pbuts")
 
 [node name="Control" type="Control" parent="."]
@@ -32,22 +33,23 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="TouchConrrols" parent="Control" instance=ExtResource("2_wao6q")]
+[node name="TouchControls" parent="Control" instance=ExtResource("2_wao6q")]
 player_path = NodePath("../../batter")
 
 [node name="second" parent="." instance=ExtResource("3_t7pfu")]
-position = Vector2(-9, -24)
-scale = Vector2(2.5, 2.5)
-
-[node name="homePlate" parent="." instance=ExtResource("3_t7pfu")]
-position = Vector2(-89, -24)
+position = Vector2(-20, -13)
 scale = Vector2(2.5, 2.5)
 
 [node name="GameManager" type="Node" parent="."]
 script = ExtResource("4_4mkok")
 
 [node name="Pitcher" parent="." instance=ExtResource("5_lula8")]
-position = Vector2(-21, -56)
+position = Vector2(-2, -55)
+
+[node name="strike Zone" parent="." instance=ExtResource("6_4r4bg")]
+position = Vector2(-166, -12)
+
+[node name="Base" parent="." instance=ExtResource("3_t7pfu")]
+position = Vector2(-147, -12)
 
 [connection signal="body_entered" from="second" to="batter" method="_on_second_body_entered"]
-[connection signal="body_entered" from="homePlate" to="batter" method="_on_home_plate_body_entered"]

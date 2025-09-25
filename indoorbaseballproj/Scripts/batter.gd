@@ -9,6 +9,11 @@ var returning = false
 #get the refrences for the bases that the player needs to go to
 @onready var SECOND_BASE = get_node("../second").position
 @onready var HOME = get_node("../homePlate").position
+@onready var controls = get_node("../TouchControls")
+
+#referennce to the bat
+@export var batScene: PackedScene
+var batInstance: Node2D
 
 #set a refrence to a target base and current base 
 var targetbase: Vector2
@@ -18,6 +23,13 @@ var currentBase: Vector2
 func _ready() -> void:
 	targetbase = SECOND_BASE
 	currentBase = HOME
+	batInstance = batScene.instantiate()
+	batInstance.freeze = true
+	
+	
+	
+	var batPoint = $hands
+	batPoint.add_child(batInstance)
 
 
 

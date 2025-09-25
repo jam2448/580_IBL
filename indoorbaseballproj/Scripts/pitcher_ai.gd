@@ -9,6 +9,7 @@ extends CharacterBody2D
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var speed = 30.0
 
+@onready var releasePoint = $ReleasePoint
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -16,8 +17,9 @@ func _ready() -> void:
 	$Timer.wait_time = timeToPitch
 	$Timer.start()
 	
+	
 	print("Inside the pitcher ready function")
-
+ 
 
 func _on_timer_timeout():
 	print("Timer is Done!")
@@ -27,9 +29,10 @@ func _on_timer_timeout():
 func throwPitch():
 	if gameBall:
 		var ball = gameBall.instantiate()
-		get_parent().add_child(ball)
-		ball.global_position = global_position
-		ball.direction = direction.normalized()
+		releasePoint.add_child(ball)
+		ball.global_position = releasePoint.global_position
+		var shoot_direction = releasePoint.transform.x.normalized()
+		ball.direction = shoot_direction
 
 
 func _physics_process(delta: float) -> void:
