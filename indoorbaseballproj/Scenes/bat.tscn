@@ -1,17 +1,26 @@
-[gd_scene load_steps=3 format=3 uid="uid://bsts53kdmt7j2"]
+[gd_scene load_steps=4 format=3 uid="uid://bsts53kdmt7j2"]
+
+[ext_resource type="Script" path="res://Scripts/bat.gd" id="1_ut0e2"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_pp3y4"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_bd02s"]
-size = Vector2(2, 12)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6eu0k"]
+size = Vector2(24.0093, 4.02338)
 
-[node name="bat" type="RigidBody2D"]
+[node name="bat" type="Area2D"]
+collision_layer = 2
+collision_mask = 10
+script = ExtResource("1_ut0e2")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(0, -6)
-scale = Vector2(2, 12)
+position = Vector2(0, -10.5)
+scale = Vector2(3, 21)
 texture = SubResource("PlaceholderTexture2D_pp3y4")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -6)
-shape = SubResource("RectangleShape2D_bd02s")
+position = Vector2(-2.01171, -10.0047)
+rotation = 1.56846
+shape = SubResource("RectangleShape2D_6eu0k")
+one_way_collision_margin = 50.2
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

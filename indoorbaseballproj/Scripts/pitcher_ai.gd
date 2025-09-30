@@ -16,13 +16,9 @@ func _ready() -> void:
 	#set the timer
 	$Timer.wait_time = timeToPitch
 	$Timer.start()
-	
-	
-	print("Inside the pitcher ready function")
  
 
 func _on_timer_timeout():
-	print("Timer is Done!")
 	throwPitch()
 
 

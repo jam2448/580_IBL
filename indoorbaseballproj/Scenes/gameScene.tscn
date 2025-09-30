@@ -13,7 +13,7 @@ size = Vector2(384, 7.75)
 [node name="Node2D" type="Node2D"]
 
 [node name="batter" parent="." instance=ExtResource("1_snma1")]
-position = Vector2(-144, -26)
+position = Vector2(-144, -5)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(-13, -31)
@@ -24,7 +24,7 @@ collision_layer = 8
 collision_mask = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(-13, -7)
+position = Vector2(-13, 4)
 shape = SubResource("RectangleShape2D_pbuts")
 
 [node name="Control" type="Control" parent="."]
@@ -36,20 +36,21 @@ offset_bottom = 40.0
 [node name="TouchControls" parent="Control" instance=ExtResource("2_wao6q")]
 player_path = NodePath("../../batter")
 
-[node name="second" parent="." instance=ExtResource("3_t7pfu")]
-position = Vector2(-20, -13)
-scale = Vector2(2.5, 2.5)
-
 [node name="GameManager" type="Node" parent="."]
 script = ExtResource("4_4mkok")
 
 [node name="Pitcher" parent="." instance=ExtResource("5_lula8")]
-position = Vector2(-2, -55)
+position = Vector2(12, -55)
+timeToPitch = 3.0
 
 [node name="strike Zone" parent="." instance=ExtResource("6_4r4bg")]
-position = Vector2(-166, -12)
+position = Vector2(-169, 1)
 
-[node name="Base" parent="." instance=ExtResource("3_t7pfu")]
-position = Vector2(-147, -12)
+[node name="homePlate" parent="." instance=ExtResource("3_t7pfu")]
+position = Vector2(-146, -3)
 
+[node name="second" parent="." instance=ExtResource("3_t7pfu")]
+position = Vector2(-20, -3)
+
+[connection signal="body_entered" from="homePlate" to="batter" method="_on_home_plate_body_entered"]
 [connection signal="body_entered" from="second" to="batter" method="_on_second_body_entered"]

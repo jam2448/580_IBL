@@ -38,9 +38,9 @@ func _on_return_released() -> void:
 #when pressed swing the bat
 func _on_swing_pressed() -> void:
 	#swing.modulate.a = 0.5
-	print("swing pressed")
+	pass
 
 
 func _on_swing_released() -> void:
 	#swing.modulate.a = 1.0
-	print("swing released")
+	pass

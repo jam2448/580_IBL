@@ -6,6 +6,10 @@ var score = 0
 var balls = 0
 var strikes = 0
 
+#get necessary game lements to control the game
+
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass # Replace with function body.
@@ -17,6 +21,7 @@ func _process(_delta: float) -> void:
 	
 
 func checkCount():
+	print("Count is: " + str(balls) + "-" + str(strikes))
 	if balls == 4:
 		print("walk")
 		balls = 0

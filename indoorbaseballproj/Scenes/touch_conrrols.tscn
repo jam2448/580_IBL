@@ -24,8 +24,8 @@ texture_normal = SubResource("PlaceholderTexture2D_o4p5u")
 action = "returnRunners"
 
 [node name="Swing" type="TouchScreenButton" parent="."]
-position = Vector2(0, 497)
-scale = Vector2(128, 135)
+position = Vector2(4, 505)
+scale = Vector2(128, 140)
 texture_normal = SubResource("PlaceholderTexture2D_igk3y")
 action = "swing"
 
