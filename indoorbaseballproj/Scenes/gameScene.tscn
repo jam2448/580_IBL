@@ -1,30 +1,88 @@
-[gd_scene load_steps=8 format=3 uid="uid://ch8h73shj8bmj"]
+[gd_scene load_steps=10 format=3 uid="uid://ch8h73shj8bmj"]
 
 [ext_resource type="PackedScene" uid="uid://b8ecnkfc65q3" path="res://Scenes/batter.tscn" id="1_snma1"]
 [ext_resource type="PackedScene" uid="uid://cso60hihmbwrx" path="res://Scenes/touch_conrrols.tscn" id="2_wao6q"]
 [ext_resource type="PackedScene" uid="uid://dfqkruki0gsy7" path="res://Scenes/base.tscn" id="3_t7pfu"]
 [ext_resource type="Script" path="res://Scripts/game_manager.gd" id="4_4mkok"]
+[ext_resource type="Script" path="res://Scripts/camera.gd" id="4_orq80"]
 [ext_resource type="PackedScene" uid="uid://c4fuudd1n6kqx" path="res://Scenes/pitcherAI.tscn" id="5_lula8"]
 [ext_resource type="PackedScene" uid="uid://dwv5vjo0xkpfw" path="res://Scenes/strikeZone.tscn" id="6_4r4bg"]
+[ext_resource type="FontFile" uid="uid://b0p1a6xq0ixlv" path="res://Assets/fonts/fonts/Ithaca-LVB75.ttf" id="7_tdruc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pbuts"]
-size = Vector2(384, 7.75)
+size = Vector2(728, 7.75)
 
 [node name="Node2D" type="Node2D"]
 
-[node name="batter" parent="." instance=ExtResource("1_snma1")]
-position = Vector2(-144, -5)
-
 [node name="Camera2D" type="Camera2D" parent="."]
+unique_name_in_owner = true
 position = Vector2(-13, -31)
 zoom = Vector2(3, 3)
+position_smoothing_enabled = true
+position_smoothing_speed = 2.0
+script = ExtResource("4_orq80")
+
+[node name="GameManager" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
+follow_viewport_enabled = true
+script = ExtResource("4_4mkok")
+
+[node name="CountLabel" type="Label" parent="GameManager"]
+offset_left = -194.0
+offset_top = -125.0
+offset_right = -124.0
+offset_bottom = -108.0
+theme_override_fonts/font = ExtResource("7_tdruc")
+theme_override_font_sizes/font_size = 16
+text = "Count: 0-0"
+
+[node name="HomeLabel" type="Label" parent="GameManager"]
+offset_left = -59.0
+offset_top = -131.0
+offset_right = -30.0
+offset_bottom = -114.0
+theme_override_fonts/font = ExtResource("7_tdruc")
+theme_override_font_sizes/font_size = 16
+text = "Home"
+
+[node name="AwayLabel" type="Label" parent="GameManager"]
+offset_left = 15.0
+offset_top = -131.0
+offset_right = 44.0
+offset_bottom = -114.0
+theme_override_fonts/font = ExtResource("7_tdruc")
+theme_override_font_sizes/font_size = 16
+text = "Away"
+
+[node name="AwayScore" type="Label" parent="GameManager"]
+offset_left = 16.0
+offset_top = -113.0
+offset_right = 43.0
+offset_bottom = -94.0
+theme_override_fonts/font = ExtResource("7_tdruc")
+theme_override_font_sizes/font_size = 16
+text = "0"
+horizontal_alignment = 1
+
+[node name="HomeScore" type="Label" parent="GameManager"]
+offset_left = -58.0
+offset_top = -113.0
+offset_right = -31.0
+offset_bottom = -94.0
+theme_override_fonts/font = ExtResource("7_tdruc")
+theme_override_font_sizes/font_size = 16
+text = "0"
+horizontal_alignment = 1
+
+[node name="batter" parent="." instance=ExtResource("1_snma1")]
+position = Vector2(-144, -5)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 collision_layer = 8
 collision_mask = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(-13, 4)
+position = Vector2(159, 4)
 shape = SubResource("RectangleShape2D_pbuts")
 
 [node name="Control" type="Control" parent="."]
@@ -36,11 +94,8 @@ offset_bottom = 40.0
 [node name="TouchControls" parent="Control" instance=ExtResource("2_wao6q")]
 player_path = NodePath("../../batter")
 
-[node name="GameManager" type="Node" parent="."]
-script = ExtResource("4_4mkok")
-
 [node name="Pitcher" parent="." instance=ExtResource("5_lula8")]
-position = Vector2(12, -55)
+position = Vector2(12, -16)
 timeToPitch = 3.0
 
 [node name="strike Zone" parent="." instance=ExtResource("6_4r4bg")]

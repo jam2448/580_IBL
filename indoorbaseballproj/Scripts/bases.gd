@@ -15,5 +15,5 @@ func _process(_delta: float) -> void:
 func _on_body_entered(_body: Node2D) -> void:
 	if self.name == "homePlate" && batter.currentBase != self.position:
 		var gameManager = get_node("../GameManager")
-		gameManager.score += 1
-		print("You scored a run. You now have " + str(gameManager.score))
+		gameManager.increaseScore()
+		

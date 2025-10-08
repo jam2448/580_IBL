@@ -4,8 +4,9 @@
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_pp3y4"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_6eu0k"]
-size = Vector2(24.0093, 4.02338)
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5x4j8"]
+radius = 2.0
+height = 28.0
 
 [node name="bat" type="Area2D"]
 collision_layer = 2
@@ -13,14 +14,13 @@ collision_mask = 10
 script = ExtResource("1_ut0e2")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(0, -10.5)
-scale = Vector2(3, 21)
+position = Vector2(-4.47035e-08, -12)
+scale = Vector2(3.5, 23)
 texture = SubResource("PlaceholderTexture2D_pp3y4")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-2.01171, -10.0047)
-rotation = 1.56846
-shape = SubResource("RectangleShape2D_6eu0k")
+position = Vector2(0, -12)
+shape = SubResource("CapsuleShape2D_5x4j8")
 one_way_collision_margin = 50.2
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

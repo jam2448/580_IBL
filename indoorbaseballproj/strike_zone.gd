@@ -1,6 +1,11 @@
 extends Area2D
 
 @onready var gameManager = get_node("../GameManager")
+@onready var gameball = get_node("../gameBall")
+
+var hasCollided = false
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass # Replace with function body.
@@ -13,5 +18,9 @@ func _process(_delta: float) -> void:
 
 
 func _on_body_entered(_body: Node2D) -> void:
+	hasCollided = true
+	var label = gameManager.get_node("CountLabel") as Label
+	label.text = ""
 	print("strike")
 	gameManager.strikes += 1
+	label.text += "Count: "  + str(gameManager.balls) + "-" + str(gameManager.strikes)
