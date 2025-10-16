@@ -1,23 +1,42 @@
 extends Area2D
 
-@export var hit_force := 550.0   # strength of hit
-@export var hit_direction := Vector2.LEFT  # default hit direction
+#Bat Variables
+@export var hit_force := 600.0
+@export var hit_direction := Vector2.LEFT
+var dropped := false
+signal contact_made(body)
+
+
+#external variables
 @onready var gameManager = get_node("/root/Node2D/GameManager")
 @onready var camera = get_node("../../../Camera2D")
 
+
+# when the bat hits something
 func _on_body_entered(body: Node2D) -> void:
 	print("Bat hit something: " + str(body.name))
-	var label = gameManager.get_node("CountLabel") as Label
+	emit_signal("contact_made", body)
+
+	#if the bat hits the ball then make the camera follow the ball 
+	#make the ball jump off the bat and move 
+	# add gravity to the ball
+	#Reset balls and strikes 
 	if body is RigidBody2D:
 		var ball = body as RigidBody2D
-		camera.target = ball  # Assign camera follow target
-		# Rotate hit_direction by the bat's current rotation
-		var force = hit_direction.rotated(global_rotation) * hit_force 
-		body.apply_central_impulse(force)
+		camera.target = ball
 		
-		# turn on gravity for the ball
+		var force = hit_direction.rotated(global_rotation) * hit_force
+		ball.apply_central_impulse(force)
+		
 		body.gravity_scale = 1
-		#reset the count in the gamemanager
 		gameManager.balls = 0
 		gameManager.strikes = 0
 		gameManager.reset()
+
+		# Wait a short moment before dropping the bat
+		await get_tree().create_timer(0.2).timeout
+		drop_bat()
+
+# delete the bat from the scene
+func drop_bat() -> void:
+	queue_free()

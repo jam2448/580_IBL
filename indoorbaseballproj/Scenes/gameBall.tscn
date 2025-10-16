@@ -5,10 +5,10 @@
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_5t85m"]
 bounce = 0.5
 
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_n2msx"]
-
 [sub_resource type="CircleShape2D" id="CircleShape2D_vrjb3"]
 radius = 2.5
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_n2msx"]
 
 [node name="GameBall" type="RigidBody2D"]
 collision_layer = 2
@@ -17,17 +17,18 @@ physics_material_override = SubResource("PhysicsMaterial_5t85m")
 gravity_scale = 0.0
 script = ExtResource("1_c5u8g")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(-5.96046e-08, 5.96046e-08)
-scale = Vector2(3.5, 3.5)
-texture = SubResource("PlaceholderTexture2D_n2msx")
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 rotation = -0.00227406
 scale = Vector2(0.8, 0.8)
 shape = SubResource("CircleShape2D_vrjb3")
 
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-5.96046e-08, 5.96046e-08)
+scale = Vector2(3.5, 3.5)
+texture = SubResource("PlaceholderTexture2D_n2msx")
+
 [node name="Timer" type="Timer" parent="."]
 wait_time = 3.0
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

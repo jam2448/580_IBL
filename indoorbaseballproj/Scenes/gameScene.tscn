@@ -16,66 +16,18 @@ size = Vector2(728, 7.75)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 unique_name_in_owner = true
-position = Vector2(-13, -31)
-zoom = Vector2(3, 3)
+position = Vector2(55, -31)
+zoom = Vector2(2.2, 2.2)
 position_smoothing_enabled = true
 position_smoothing_speed = 2.0
 script = ExtResource("4_orq80")
 
-[node name="GameManager" type="CanvasLayer" parent="."]
+[node name="GameManager" type="Node" parent="."]
 unique_name_in_owner = true
-follow_viewport_enabled = true
 script = ExtResource("4_4mkok")
 
-[node name="CountLabel" type="Label" parent="GameManager"]
-offset_left = -194.0
-offset_top = -125.0
-offset_right = -124.0
-offset_bottom = -108.0
-theme_override_fonts/font = ExtResource("7_tdruc")
-theme_override_font_sizes/font_size = 16
-text = "Count: 0-0"
-
-[node name="HomeLabel" type="Label" parent="GameManager"]
-offset_left = -59.0
-offset_top = -131.0
-offset_right = -30.0
-offset_bottom = -114.0
-theme_override_fonts/font = ExtResource("7_tdruc")
-theme_override_font_sizes/font_size = 16
-text = "Home"
-
-[node name="AwayLabel" type="Label" parent="GameManager"]
-offset_left = 15.0
-offset_top = -131.0
-offset_right = 44.0
-offset_bottom = -114.0
-theme_override_fonts/font = ExtResource("7_tdruc")
-theme_override_font_sizes/font_size = 16
-text = "Away"
-
-[node name="AwayScore" type="Label" parent="GameManager"]
-offset_left = 16.0
-offset_top = -113.0
-offset_right = 43.0
-offset_bottom = -94.0
-theme_override_fonts/font = ExtResource("7_tdruc")
-theme_override_font_sizes/font_size = 16
-text = "0"
-horizontal_alignment = 1
-
-[node name="HomeScore" type="Label" parent="GameManager"]
-offset_left = -58.0
-offset_top = -113.0
-offset_right = -31.0
-offset_bottom = -94.0
-theme_override_fonts/font = ExtResource("7_tdruc")
-theme_override_font_sizes/font_size = 16
-text = "0"
-horizontal_alignment = 1
-
 [node name="batter" parent="." instance=ExtResource("1_snma1")]
-position = Vector2(-144, -5)
+position = Vector2(92, -35)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 collision_layer = 8
@@ -84,15 +36,6 @@ collision_mask = 5
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2(159, 4)
 shape = SubResource("RectangleShape2D_pbuts")
-
-[node name="Control" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="TouchControls" parent="Control" instance=ExtResource("2_wao6q")]
-player_path = NodePath("../../batter")
 
 [node name="Pitcher" parent="." instance=ExtResource("5_lula8")]
 position = Vector2(12, -16)
@@ -106,6 +49,65 @@ position = Vector2(-146, -3)
 
 [node name="second" parent="." instance=ExtResource("3_t7pfu")]
 position = Vector2(-20, -3)
+
+[node name="Control" type="Control" parent="."]
+z_index = 2
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TouchControls" parent="Control" instance=ExtResource("2_wao6q")]
+player_path = NodePath("../../batter")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="CountLabel" type="Label" parent="CanvasLayer"]
+offset_left = 62.0
+offset_top = 32.0
+offset_right = 233.0
+offset_bottom = 83.0
+theme_override_fonts/font = ExtResource("7_tdruc")
+theme_override_font_sizes/font_size = 48
+text = "Count: 0-0"
+
+[node name="HomeLabel" type="Label" parent="CanvasLayer"]
+offset_left = 437.0
+offset_top = 8.0
+offset_right = 518.0
+offset_bottom = 50.0
+theme_override_fonts/font = ExtResource("7_tdruc")
+theme_override_font_sizes/font_size = 48
+text = "Home"
+
+[node name="AwayLabel" type="Label" parent="CanvasLayer"]
+offset_left = 697.0
+offset_top = 6.0
+offset_right = 778.0
+offset_bottom = 48.0
+theme_override_fonts/font = ExtResource("7_tdruc")
+theme_override_font_sizes/font_size = 48
+text = "Away"
+
+[node name="AwayScore" type="Label" parent="CanvasLayer"]
+offset_left = 722.0
+offset_top = 54.0
+offset_right = 763.0
+offset_bottom = 96.0
+theme_override_fonts/font = ExtResource("7_tdruc")
+theme_override_font_sizes/font_size = 48
+text = "0"
+horizontal_alignment = 1
+
+[node name="HomeScore" type="Label" parent="CanvasLayer"]
+offset_left = 456.0
+offset_top = 56.0
+offset_right = 494.0
+offset_bottom = 98.0
+theme_override_fonts/font = ExtResource("7_tdruc")
+theme_override_font_sizes/font_size = 48
+text = "0"
+horizontal_alignment = 1
 
 [connection signal="body_entered" from="homePlate" to="batter" method="_on_home_plate_body_entered"]
 [connection signal="body_entered" from="second" to="batter" method="_on_second_body_entered"]

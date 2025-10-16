@@ -27,7 +27,7 @@ position = Vector2(0, -6.375)
 shape = SubResource("RectangleShape2D_v6cit")
 
 [node name="ReleasePoint" type="Node2D" parent="."]
-position = Vector2(0, -5)
+position = Vector2(0, -14)
 rotation = 1.5708
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

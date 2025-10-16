@@ -1,9 +1,11 @@
 extends Area2D
 
+#getting reference to the game manager, the ball, and the backstop behind the strikezone 
 @onready var gameManager = get_node("../GameManager")
 @onready var gameball = get_node("../gameBall")
+@export var backstop = CollisionObject2D
 
-var hasCollided = false
+var isStrike := false #flag for determing strikes
 
 
 # Called when the node enters the scene tree for the first time.
@@ -16,11 +18,27 @@ func _process(_delta: float) -> void:
 	pass
 
 
-
+# Checks to see if the pitch hits the strike zone, if so add a strike to the count 
 func _on_body_entered(_body: Node2D) -> void:
-	hasCollided = true
-	var label = gameManager.get_node("CountLabel") as Label
-	label.text = ""
+	print("SZ collided with something: " + _body.name)
+	var ball = _body as RigidBody2D
+	ball.gravity_scale = 1
+	isStrike = true
+	gameManager.count_label.text = ""
 	print("strike")
 	gameManager.strikes += 1
-	label.text += "Count: "  + str(gameManager.balls) + "-" + str(gameManager.strikes)
+	gameManager.count_label.text += "Count: "  + str(gameManager.balls) + "-" + str(gameManager.strikes)
+
+
+
+#Checks to see if the ball hits the backstop outside of the strike zone to call balls
+#if it does, then add a ball to the count and print out the new count 
+func _on_static_body_2d_area_entered(area: Area2D) -> void:
+	if(isStrike):
+		print("Collided with the backstop")
+		return
+	else:
+		print("Collided with the backstop but is was not a strike")
+		gameManager.balls += 1
+		gameManager.count_label.text += "Count: "  + str(gameManager.balls) + "-" + str(gameManager.strikes)
+		

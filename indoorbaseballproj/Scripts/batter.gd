@@ -16,7 +16,8 @@ var rest_rotation = 0.0
 # Get the references for the bases that the player needs to go to
 @onready var SECOND_BASE = get_node("../second").global_position
 @onready var HOME = get_node("../homePlate").global_position
-@onready var controls = get_node("../TouchControls")
+@onready var controls = get_node("../Control/TouchControls")
+@onready var gameManager = get_node("%GameManager")
 
 # Reference to the bat
 @export var batScene: PackedScene
@@ -34,6 +35,9 @@ func _ready() -> void:
 	var batPoint = $hands
 	batPoint.add_child(batInstance)
 	rest_rotation = batInstance.rotation  # save default position
+	
+	gameManager.connect_bat_signal(batInstance)
+	print(batInstance.name)
 
 
 func _physics_process(delta: float) -> void:
