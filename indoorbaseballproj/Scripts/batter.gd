@@ -5,13 +5,14 @@ const SPEED = 30.0
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var advancing = false
 var returning = false
+var batterStartPos : Vector2
 
 # Variables for the swinging
 var swinging = false
 var swing_speed = 3.0              # how fast the bat swings
 var swing_angle = deg_to_rad(-275)   # swing arc
 var swing_progress = 0.0
-var rest_rotation = 0.0
+var rest_rotation := 0.0
 
 # Get the references for the bases that the player needs to go to
 @onready var SECOND_BASE = get_node("../second").global_position
@@ -24,8 +25,9 @@ var rest_rotation = 0.0
 var batInstance: Node2D
 
 # Set a reference to a target base and current base 
-var targetbase: Vector2
+var targetbase : Vector2
 var currentBase: Vector2
+var isSafe := false
 
 # Set the current and target bases when the game loads 
 func _ready() -> void:
@@ -35,9 +37,8 @@ func _ready() -> void:
 	var batPoint = $hands
 	batPoint.add_child(batInstance)
 	rest_rotation = batInstance.rotation  # save default position
-	
+	batterStartPos = global_position
 	gameManager.connect_bat_signal(batInstance)
-	print(batInstance.name)
 
 
 func _physics_process(delta: float) -> void:
@@ -91,7 +92,6 @@ func stop_move_left():
 
 # When a base is touched by the batter, update their current and target bases
 func _on_second_body_entered(body: Node2D) -> void:
-	print("entered Second base")
 	if body == self:
 		currentBase = SECOND_BASE
 		targetbase = HOME 

@@ -1,16 +1,27 @@
-[gd_scene load_steps=10 format=3 uid="uid://ch8h73shj8bmj"]
+[gd_scene load_steps=15 format=3 uid="uid://ch8h73shj8bmj"]
 
 [ext_resource type="PackedScene" uid="uid://b8ecnkfc65q3" path="res://Scenes/batter.tscn" id="1_snma1"]
 [ext_resource type="PackedScene" uid="uid://cso60hihmbwrx" path="res://Scenes/touch_conrrols.tscn" id="2_wao6q"]
 [ext_resource type="PackedScene" uid="uid://dfqkruki0gsy7" path="res://Scenes/base.tscn" id="3_t7pfu"]
 [ext_resource type="Script" path="res://Scripts/game_manager.gd" id="4_4mkok"]
 [ext_resource type="Script" path="res://Scripts/camera.gd" id="4_orq80"]
+[ext_resource type="Script" path="res://Scripts/floor.gd" id="4_rcga1"]
+[ext_resource type="Script" path="res://Scripts/back_wall.gd" id="4_w5ul7"]
 [ext_resource type="PackedScene" uid="uid://c4fuudd1n6kqx" path="res://Scenes/pitcherAI.tscn" id="5_lula8"]
 [ext_resource type="PackedScene" uid="uid://dwv5vjo0xkpfw" path="res://Scenes/strikeZone.tscn" id="6_4r4bg"]
 [ext_resource type="FontFile" uid="uid://b0p1a6xq0ixlv" path="res://Assets/fonts/fonts/Ithaca-LVB75.ttf" id="7_tdruc"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_pbuts"]
-size = Vector2(728, 7.75)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_st4rl"]
+size = Vector2(260.96, 6.76266)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ddfje"]
+size = Vector2(268.068, 9.18972)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_u1j2q"]
+size = Vector2(1977, 11)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dorem"]
+size = Vector2(2394, 14)
 
 [node name="Node2D" type="Node2D"]
 
@@ -26,23 +37,58 @@ script = ExtResource("4_orq80")
 unique_name_in_owner = true
 script = ExtResource("4_4mkok")
 
+[node name="Timer" type="Timer" parent="GameManager"]
+wait_time = 1.5
+
 [node name="batter" parent="." instance=ExtResource("1_snma1")]
-position = Vector2(92, -35)
+position = Vector2(-145, -9)
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
+[node name="backWall" type="StaticBody2D" parent="."]
+position = Vector2(-180, -75)
+rotation = -1.57755
 collision_layer = 8
-collision_mask = 5
+collision_mask = 13
+script = ExtResource("4_w5ul7")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(159, 4)
-shape = SubResource("RectangleShape2D_pbuts")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="backWall"]
+position = Vector2(56.5088, -1.11838)
+shape = SubResource("RectangleShape2D_st4rl")
+
+[node name="Area2D" type="Area2D" parent="backWall"]
+position = Vector2(94.0924, -13.3648)
+collision_layer = 2
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="backWall/Area2D"]
+position = Vector2(-35.0904, 13.2633)
+shape = SubResource("RectangleShape2D_ddfje")
+debug_color = Color(0.110359, 0.62201, 0.516468, 0.42)
+
+[node name="floor" type="StaticBody2D" parent="."]
+collision_layer = 8
+collision_mask = 13
+script = ExtResource("4_rcga1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="floor"]
+position = Vector2(799.5, 4.5)
+shape = SubResource("RectangleShape2D_u1j2q")
+
+[node name="Area2D" type="Area2D" parent="floor"]
+position = Vector2(0, -1)
+collision_layer = 2
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="floor/Area2D"]
+position = Vector2(601, 6)
+shape = SubResource("RectangleShape2D_dorem")
+debug_color = Color(0.110359, 0.62201, 0.516468, 0.42)
 
 [node name="Pitcher" parent="." instance=ExtResource("5_lula8")]
-position = Vector2(12, -16)
+position = Vector2(12, -19)
 timeToPitch = 3.0
 
 [node name="strike Zone" parent="." instance=ExtResource("6_4r4bg")]
-position = Vector2(-169, 1)
+position = Vector2(-165, 1)
 
 [node name="homePlate" parent="." instance=ExtResource("3_t7pfu")]
 position = Vector2(-146, -3)
@@ -109,5 +155,8 @@ theme_override_font_sizes/font_size = 48
 text = "0"
 horizontal_alignment = 1
 
+[connection signal="timeout" from="GameManager/Timer" to="GameManager" method="_on_timer_timeout"]
+[connection signal="body_entered" from="backWall/Area2D" to="backWall" method="_on_area_2d_body_entered"]
+[connection signal="body_entered" from="floor/Area2D" to="floor" method="_on_area_2d_body_entered"]
 [connection signal="body_entered" from="homePlate" to="batter" method="_on_home_plate_body_entered"]
 [connection signal="body_entered" from="second" to="batter" method="_on_second_body_entered"]

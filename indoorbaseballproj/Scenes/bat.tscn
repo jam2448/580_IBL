@@ -10,7 +10,7 @@ height = 28.0
 
 [node name="bat" type="Area2D"]
 collision_layer = 2
-collision_mask = 10
+collision_mask = 4
 script = ExtResource("1_ut0e2")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

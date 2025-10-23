@@ -6,26 +6,26 @@
 size = Vector2(2.37939, 18)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bwo61"]
-size = Vector2(3, 47)
+size = Vector2(2.75, 33.75)
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_ndnt6"]
 
 [node name="strikeZone" type="Area2D" node_paths=PackedStringArray("backstop")]
 collision_layer = 2
-collision_mask = 11
+collision_mask = 13
 script = ExtResource("1_gdetu")
 backstop = NodePath("StaticBody2D/Backstop")
 
 [node name="Kzone" type="CollisionShape2D" parent="."]
-position = Vector2(1.8103, -13)
+position = Vector2(0, -12)
 shape = SubResource("RectangleShape2D_62b5u")
 
 [node name="StaticBody2D" type="Area2D" parent="."]
 collision_layer = 2
-collision_mask = 11
+collision_mask = 13
 
 [node name="Backstop" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(-1, -13)
+position = Vector2(-3.625, -17.125)
 shape = SubResource("RectangleShape2D_bwo61")
 debug_color = Color(0.825628, 0.339395, 0.543271, 0.42)
 

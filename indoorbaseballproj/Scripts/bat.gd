@@ -1,10 +1,10 @@
 extends Area2D
 
 #Bat Variables
-@export var hit_force := 600.0
+@export var hit_force := 500.0
 @export var hit_direction := Vector2.LEFT
-var dropped := false
-signal contact_made(body)
+
+signal contact_made(body) 
 
 
 #external variables
@@ -14,7 +14,6 @@ signal contact_made(body)
 
 # when the bat hits something
 func _on_body_entered(body: Node2D) -> void:
-	print("Bat hit something: " + str(body.name))
 	emit_signal("contact_made", body)
 
 	#if the bat hits the ball then make the camera follow the ball 
@@ -31,7 +30,8 @@ func _on_body_entered(body: Node2D) -> void:
 		body.gravity_scale = 1
 		gameManager.balls = 0
 		gameManager.strikes = 0
-		gameManager.reset()
+		gameManager.count_label.text = ""
+		gameManager.count_label.text = "Count: 0-0"
 
 		# Wait a short moment before dropping the bat
 		await get_tree().create_timer(0.2).timeout

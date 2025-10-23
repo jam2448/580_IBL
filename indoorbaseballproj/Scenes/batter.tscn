@@ -25,8 +25,8 @@ scale = Vector2(3, 3)
 shape = SubResource("RectangleShape2D_537qa")
 
 [node name="hands" type="Node2D" parent="."]
-position = Vector2(-7, -21)
-rotation = -0.986677
+position = Vector2(-8, -24)
+rotation = -0.569129
 
 [node name="Timer" type="Timer" parent="."]
 

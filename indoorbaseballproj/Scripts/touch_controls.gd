@@ -10,7 +10,7 @@ extends CanvasLayer
 @onready var swing := $Swing
 
 #check and see if the buttons are disabled or not. If they are grey them out, if not make them full brighness
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	# fade out when disabled (action == "")
 	if advance.action == "":
 		advance.modulate.a = 0.3
@@ -37,7 +37,6 @@ func _on_advance_pressed() -> void:
 func _on_advance_released() -> void:
 	advance.modulate.a = 1.0
 	player.stop_move_right()
-	print("Advance runners released")
 
 
 # Return runner to previous base when pressed, and stop when they release
@@ -49,7 +48,6 @@ func _on_return_pressed() -> void:
 func _on_return_released() -> void:
 	returnRunners.modulate.a = 1.0
 	player.stop_move_left()
-	print("Return runners released")
 
 #swing
 func _on_swing_pressed() -> void:
