@@ -21,7 +21,7 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		gameManager.strikes += 1
 	
 	gameManager.count_label.text = ""
-	gameManager.count_label.text = "Count: " + str(gameManager.balls) + "-" + str(gameManager.strikes)
+	gameManager.count_label.text = str(gameManager.balls) + "-" + str(gameManager.strikes)
 	gameManager.reset()
 	
 	

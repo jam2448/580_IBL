@@ -29,7 +29,7 @@ func _on_body_entered(_body: Node2D) -> void:
 		
 		isStrike = true
 		gameManager.strikes += 1
-		gameManager.count_label.text = "Count: " + str(gameManager.balls) + "-" + str(gameManager.strikes)
+		gameManager.count_label.text = str(gameManager.balls) + "-" + str(gameManager.strikes)
 		isHit = true
 	else:
 		print("Collision was not with a ball (type: " + str(_body.get_class()) + ")")

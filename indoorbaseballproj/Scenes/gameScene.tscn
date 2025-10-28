@@ -96,6 +96,15 @@ position = Vector2(-146, -3)
 [node name="second" parent="." instance=ExtResource("3_t7pfu")]
 position = Vector2(-20, -3)
 
+[node name="playLabel" type="Label" parent="."]
+offset_left = -33.0
+offset_top = -60.0
+offset_right = -4.0
+offset_bottom = -43.0
+theme_override_fonts/font = ExtResource("7_tdruc")
+theme_override_font_sizes/font_size = 16
+horizontal_alignment = 1
+
 [node name="Control" type="Control" parent="."]
 z_index = 2
 layout_mode = 3
@@ -109,19 +118,28 @@ player_path = NodePath("../../batter")
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="CountLabel" type="Label" parent="CanvasLayer"]
-offset_left = 62.0
-offset_top = 32.0
-offset_right = 233.0
-offset_bottom = 83.0
+offset_left = 593.0
+offset_top = 91.0
+offset_right = 661.0
+offset_bottom = 138.0
 theme_override_fonts/font = ExtResource("7_tdruc")
 theme_override_font_sizes/font_size = 48
-text = "Count: 0-0"
+text = " 0-0"
+
+[node name="InningLabel" type="Label" parent="CanvasLayer"]
+offset_left = 595.0
+offset_top = 42.0
+offset_right = 659.0
+offset_bottom = 73.0
+theme_override_fonts/font = ExtResource("7_tdruc")
+theme_override_font_sizes/font_size = 32
+text = "TOP 1"
 
 [node name="HomeLabel" type="Label" parent="CanvasLayer"]
-offset_left = 437.0
-offset_top = 8.0
-offset_right = 518.0
-offset_bottom = 50.0
+offset_left = 473.0
+offset_top = 5.0
+offset_right = 554.0
+offset_bottom = 47.0
 theme_override_fonts/font = ExtResource("7_tdruc")
 theme_override_font_sizes/font_size = 48
 text = "Home"
@@ -146,10 +164,10 @@ text = "0"
 horizontal_alignment = 1
 
 [node name="HomeScore" type="Label" parent="CanvasLayer"]
-offset_left = 456.0
-offset_top = 56.0
-offset_right = 494.0
-offset_bottom = 98.0
+offset_left = 493.0
+offset_top = 53.0
+offset_right = 531.0
+offset_bottom = 95.0
 theme_override_fonts/font = ExtResource("7_tdruc")
 theme_override_font_sizes/font_size = 48
 text = "0"

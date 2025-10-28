@@ -17,6 +17,7 @@ var hitBall := false
 @onready var count_label := $"../CanvasLayer/CountLabel"
 @onready var away_score := $"../CanvasLayer/AwayScore"
 @onready var home_score := $"../CanvasLayer/HomeScore"
+@onready var playLabel := $"../playLabel"
 @onready var kZone := $"../strike Zone"
 @onready var camera = %Camera2D
 @onready var pitcher = $"../Pitcher"
@@ -67,15 +68,32 @@ func checkCount():
 #Resets the entire play back to the starting state
 func reset():
 	
-	#stop the pitcher from moving
+	playLabel.text = ""
+	
+	#stop the pitcher and batter from moving
 	pitcher.velocity.x = 0
+	batter.velocity.x = 0
+
+	# stop batter movement
+	batter.velocity.x = 0
+	batter.advancing = false
+	batter.returning = false
+	Input.action_release("advanceRunners")
+	Input.action_release("returnRunners")
+
+
+	#reset Controls
+	advance_button.action = ""
+	return_button.action = ""
+	swing_button.action = "swing"
+
 	
 	#if a K or walk occurs, reset the count
 	if strikes == 3 || balls == 4:
 		balls = 0
 		strikes = 0
 		count_label.text = ""
-		count_label.text = "Count: 0-0"
+		count_label.text = "0-0"
 	
 	#remove the current ball in the scene if it is still there 
 	if gameball:
@@ -106,10 +124,7 @@ func reset():
 	batter.targetbase = batter.SECOND_BASE
 	batter.currentBase = batter.HOME
 	
-	#reset Controls
-	advance_button.action = ""
-	return_button.action = ""
-	swing_button.action = "swing"
+	
 	
 	#restart the pitcher timer to throw the ball, reset timer & camera,
 	pitcher.restartTimer() 

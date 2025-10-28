@@ -31,7 +31,7 @@ func _on_body_entered(body: Node2D) -> void:
 		gameManager.balls = 0
 		gameManager.strikes = 0
 		gameManager.count_label.text = ""
-		gameManager.count_label.text = "Count: 0-0"
+		gameManager.count_label.text = "0-0"
 
 		# Wait a short moment before dropping the bat
 		await get_tree().create_timer(0.2).timeout

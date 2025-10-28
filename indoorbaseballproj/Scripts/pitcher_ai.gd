@@ -7,6 +7,7 @@ var direction = Vector2.LEFT
 @onready var bat = get_node("../batter/hands/bat")
 @onready var batter = get_node("../batter")
 @onready var gameManager = get_node("%GameManager")
+@onready var GMTimer = get_node("../GameManager/Timer")
 @onready var floor = get_node("../floor")
 
 var currentBall: RigidBody2D = null
@@ -70,12 +71,16 @@ func _physics_process(delta: float) -> void:
 	#if it bounces the ai will run to the base
 	if isFielded:
 		if floor.hasBounced == false:
+			gameManager.playLabel.global_position.x = global_position.x
+			gameManager.playLabel.text = "Out!"
 			velocity.x = 0
+			await get_tree().create_timer(1).timeout
 			gameManager.reset()
 			
-		elif batter.global_position.distance_to(batter.targetbase) >= 3:
+		elif batter.global_position.distance_to(batter.targetbase) >= 15:
 			direction = (batter.targetbase - global_position).normalized()
 			velocity.x = direction.x * speed
+		
 	
 	#if the pitcher ia supposed to be chasing the ball, then chase it
 	if(isChasing):
