@@ -28,6 +28,7 @@ var batInstance: Node2D
 var targetbase : Vector2
 var currentBase: Vector2
 var isSafe := false
+var hasScored := false
 
 # Set the current and target bases when the game loads 
 func _ready() -> void:

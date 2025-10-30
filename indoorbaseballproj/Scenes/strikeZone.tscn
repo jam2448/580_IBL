@@ -17,7 +17,7 @@ script = ExtResource("1_gdetu")
 backstop = NodePath("StaticBody2D/Backstop")
 
 [node name="Kzone" type="CollisionShape2D" parent="."]
-position = Vector2(0, -12)
+position = Vector2(0, -14)
 shape = SubResource("RectangleShape2D_62b5u")
 
 [node name="StaticBody2D" type="Area2D" parent="."]

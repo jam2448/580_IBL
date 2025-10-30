@@ -33,22 +33,14 @@ func _on_body_entered(_body: Node2D) -> void:
 		#timer.start()
 
 
-func _on_body_exited(body: Node2D) -> void:
-	if body == batter:
-		batter.isSafe = false
-		
-		gameManager.playLabel.text = " "
-	
-
-
 func _on_safe_area_body_entered(_body: Node2D) -> void:
 	
-	if _body == batter && _body.global_position.distance_to(batter.targetbase) < 10.0:
+	if _body == batter && gameManager.hitBall:
 		batter.isSafe = true
-		gameManager.playLabel.global_position.x = batter.targetbase.x
+		gameManager.playLabel.global_position.x = batter.global_position.x
 		gameManager.playLabel.text = "Safe!"
 	
-	if _body == pitcher && pitcher.isFielded == true:
+	if _body == pitcher && pitcher.isFielded == true && self.global_position == batter.targetbase:
 		await get_tree().process_frame  # wait one frame to let batter.isSafe update
 		
 		if batter.isSafe == false:
@@ -61,3 +53,11 @@ func _on_safe_area_body_entered(_body: Node2D) -> void:
 			gameManager.playLabel.text = "Safe!"
 			print("Batter is safe")
 			timer.start()
+
+
+func _on_safe_area_body_exited(body: Node2D) -> void:
+	if body == batter:
+		batter.isSafe = false
+		
+		
+	gameManager.playLabel.text = " "

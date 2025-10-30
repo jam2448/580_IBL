@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://cq46oi4vm01gs"]
+
+[ext_resource type="Script" path="res://Scripts/ghostRunner.gd" id="1_lehm7"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_3n4hv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6m7uy"]
+size = Vector2(7.5, 25)
+
+[node name="GhostRunner" type="CharacterBody2D"]
+collision_layer = 260
+collision_mask = 0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-0.0625, 0.562499)
+scale = Vector2(5.875, 24.875)
+texture = SubResource("PlaceholderTexture2D_3n4hv")
+script = ExtResource("1_lehm7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.25, 0.5)
+shape = SubResource("RectangleShape2D_6m7uy")

@@ -29,6 +29,7 @@ var hitBall := false
 @onready var advance_button = controls.get_node("Advance")
 @onready var return_button = controls.get_node("Return")
 @onready var swing_button = controls.get_node("Swing")
+var ghostRunner
 
 
 # Called when the node enters the scene tree for the first time.
@@ -78,6 +79,7 @@ func reset():
 	batter.velocity.x = 0
 	batter.advancing = false
 	batter.returning = false
+	batter.hasScored = false
 	Input.action_release("advanceRunners")
 	Input.action_release("returnRunners")
 
@@ -85,6 +87,7 @@ func reset():
 	#reset Controls
 	advance_button.action = ""
 	return_button.action = ""
+	Input.flush_buffered_events()
 	swing_button.action = "swing"
 
 	

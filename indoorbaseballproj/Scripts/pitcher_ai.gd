@@ -15,11 +15,13 @@ var currentBall: RigidBody2D = null
 
 #variables for the pitcher
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
-var speed = 90.0
-var isChasing := false
-var isPitched := false
-var isFielded := false
-var isReady := true
+var speed = 75.0
+var isChasing := false # is the pitcher chasing the ball?
+var isPitched := false #has the pitcher pitched the ball?
+var isFielded := false # has the pitcher fielded the ball?
+var isReady := true 
+var hasThrown = false #has he pitcher thrown the ball outside of piching
+var isPickedUp = false #has the piutcher picked up the ball
 var pitcherStartPos : Vector2
 @onready var releasePoint = $ReleasePoint
 @onready var fieldingArea = $Area2D
@@ -36,7 +38,6 @@ func _ready() -> void:
 	if bat:
 		bat.connect("contact_made", Callable(self, "_on_bat_hit"))
 		
-
 
 #When the time to potch timer is done then pitch the ball
 func _on_timer_timeout():
@@ -70,15 +71,42 @@ func _physics_process(delta: float) -> void:
 	#When the ball is fielded, if the ball is caught in the air, then reset
 	#if it bounces the ai will run to the base
 	if isFielded:
+		
+		#if the pitcher contacts the ball before it hits the ground, the batter is out 
 		if floor.hasBounced == false:
 			gameManager.playLabel.global_position.x = global_position.x
 			gameManager.playLabel.text = "Out!"
 			velocity.x = 0
 			await get_tree().create_timer(1).timeout
 			gameManager.reset()
-			
-		elif batter.global_position.distance_to(batter.targetbase) >= 15:
+		
+		#if the batter is not near the base yet then try to tag the base
+		elif batter.global_position.distance_to(batter.targetbase) >= 30 && batter.targetbase == batter.SECOND_BASE:
 			direction = (batter.targetbase - global_position).normalized()
+			velocity.x = direction.x * speed
+		
+		#if the batter has already touched second then try to get them out at home
+		elif batter.targetbase == batter.HOME:
+			#if they are not close to home then try and tag the runner 
+			if batter.global_position.distance_to(batter.targetbase) >= 50:
+				direction = (batter.global_position - global_position).normalized()
+				velocity.x = direction.x * speed
+			#if they are close, then try and throw the ball home and get them out 
+			else:
+				if currentBall && not hasThrown:
+					#print("inside of the throw ball statement")
+					currentBall.global_position = releasePoint.global_position
+					var throwDirection = (batter.HOME - releasePoint.global_position).normalized()
+					var throw_speed = 250.0  # Adjust for your game’s scale
+					currentBall.linear_velocity = throwDirection * throw_speed
+					hasThrown == true
+					
+					#slow the pitcher down 
+					velocity.x = direction.x * 40.0
+				
+		#if none of the above things happen, then run the ball back in 
+		else:
+			direction = (batter.SECOND_BASE - global_position).normalized()
 			velocity.x = direction.x * speed
 		
 	
@@ -96,7 +124,10 @@ func _process(_delta: float) -> void:
 	
 	#if the ball is fielded and it is the correct ball attach it to the release point
 	if isFielded && currentBall:
+		print("setting the ball position to releasePoint")
 		currentBall.global_position = releasePoint.global_position
+		isPickedUp = true
+		
 	pass
 
 #Restart the timer 
@@ -105,6 +136,7 @@ func restartTimer():
 	fieldingArea.set_collision_mask_value(3, false)
 	isFielded = false
 	isChasing = false
+	hasThrown = false
 	$Timer.start()
 
  #when the bat emits the signal, make the Ai chase after the ball
@@ -119,6 +151,17 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		currentBall.freeze = true
 		currentBall.linear_velocity = Vector2.ZERO
 		currentBall.angular_velocity = 0
+	
+	#if the pitcher has fielded the ball, and contacts the batter,and the batter is not safe they are out
+	if body == batter && isFielded && batter.isSafe == false:
+		gameManager.playLabel.global_position.x = batter.global_position.x
+		gameManager.playLabel.text = "Out!"
+		velocity.x = 0
+		await get_tree().create_timer(1).timeout
+		gameManager.reset()
+	else: 
+		print("tagged the runner but they are safe")
+		
 		
 
 func connect_bat_signal(new_bat: Node):

@@ -32,13 +32,13 @@ shape = SubResource("RectangleShape2D_v6cit")
 position = Vector2(0, -1)
 rotation = 1.5708
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="FieldingRange" type="Area2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FieldingRange"]
 position = Vector2(0, -1)
 shape = SubResource("RectangleShape2D_lina6")
 debug_color = Color(0.906287, 0.238013, 0.481607, 0.42)
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
-[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
-[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="area_entered" from="FieldingRange" to="." method="_on_area_2d_area_entered"]
+[connection signal="body_entered" from="FieldingRange" to="." method="_on_area_2d_body_entered"]

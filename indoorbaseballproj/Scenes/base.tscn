@@ -34,3 +34,4 @@ debug_color = Color(0.52654, 0.557503, 0.370898, 0.42)
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]
 [connection signal="body_entered" from="safeArea" to="." method="_on_safe_area_body_entered"]
+[connection signal="body_exited" from="safeArea" to="." method="_on_safe_area_body_exited"]

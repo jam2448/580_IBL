@@ -32,7 +32,6 @@ func _process(_delta: float) -> void:
 func _on_advance_pressed() -> void:
 	advance.modulate.a = 0.5
 	player.move_right()
-	print("Advance runners pressed")
 
 func _on_advance_released() -> void:
 	advance.modulate.a = 1.0
@@ -43,7 +42,6 @@ func _on_advance_released() -> void:
 func _on_return_pressed() -> void:
 	returnRunners.modulate.a = 0.5
 	player.move_left()
-	print("Return runners pressed")
 
 func _on_return_released() -> void:
 	returnRunners.modulate.a = 1.0
