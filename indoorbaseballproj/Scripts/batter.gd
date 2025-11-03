@@ -11,7 +11,7 @@ var batterStartPos : Vector2
 var swinging = false
 var swing_speed = 3.0              # how fast the bat swings
 var swing_angle = deg_to_rad(-275)   # swing arc
-var swing_progress = 0.0
+var swing_progress := 0.0
 var rest_rotation := 0.0
 
 # Get the references for the bases that the player needs to go to

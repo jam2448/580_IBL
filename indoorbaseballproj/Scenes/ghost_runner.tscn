@@ -8,15 +8,15 @@
 size = Vector2(7.5, 25)
 
 [node name="GhostRunner" type="CharacterBody2D"]
-collision_layer = 260
-collision_mask = 0
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(-0.0625, 0.562499)
-scale = Vector2(5.875, 24.875)
-texture = SubResource("PlaceholderTexture2D_3n4hv")
+collision_layer = 288
+collision_mask = 16
 script = ExtResource("1_lehm7")
 
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(7.10543e-15, -13)
+scale = Vector2(5.875, 24.875)
+texture = SubResource("PlaceholderTexture2D_3n4hv")
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-0.25, 0.5)
+position = Vector2(0, -13)
 shape = SubResource("RectangleShape2D_6m7uy")

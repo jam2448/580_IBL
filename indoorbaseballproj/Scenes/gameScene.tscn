@@ -1,7 +1,8 @@
-[gd_scene load_steps=15 format=3 uid="uid://ch8h73shj8bmj"]
+[gd_scene load_steps=16 format=3 uid="uid://ch8h73shj8bmj"]
 
 [ext_resource type="PackedScene" uid="uid://b8ecnkfc65q3" path="res://Scenes/batter.tscn" id="1_snma1"]
 [ext_resource type="PackedScene" uid="uid://cso60hihmbwrx" path="res://Scenes/touch_conrrols.tscn" id="2_wao6q"]
+[ext_resource type="PackedScene" uid="uid://cq46oi4vm01gs" path="res://Scenes/ghost_runner.tscn" id="3_83gm0"]
 [ext_resource type="PackedScene" uid="uid://dfqkruki0gsy7" path="res://Scenes/base.tscn" id="3_t7pfu"]
 [ext_resource type="Script" path="res://Scripts/game_manager.gd" id="4_4mkok"]
 [ext_resource type="Script" path="res://Scripts/camera.gd" id="4_orq80"]
@@ -12,13 +13,13 @@
 [ext_resource type="FontFile" uid="uid://b0p1a6xq0ixlv" path="res://Assets/fonts/fonts/Ithaca-LVB75.ttf" id="7_tdruc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_st4rl"]
-size = Vector2(260.96, 6.76266)
+size = Vector2(261.504, 6.4965)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ddfje"]
 size = Vector2(268.068, 9.18972)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_u1j2q"]
-size = Vector2(1977, 11)
+size = Vector2(2120, 12)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dorem"]
 size = Vector2(2394, 14)
@@ -36,22 +37,23 @@ script = ExtResource("4_orq80")
 [node name="GameManager" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("4_4mkok")
+ghostRunner = ExtResource("3_83gm0")
 
 [node name="Timer" type="Timer" parent="GameManager"]
 wait_time = 1.5
 
 [node name="batter" parent="." instance=ExtResource("1_snma1")]
-position = Vector2(-145, -9)
+position = Vector2(-145, -7)
 
 [node name="backWall" type="StaticBody2D" parent="."]
-position = Vector2(-180, -75)
+position = Vector2(-182, -75)
 rotation = -1.57755
 collision_layer = 8
 collision_mask = 13
 script = ExtResource("4_w5ul7")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="backWall"]
-position = Vector2(56.0595, -8.62159)
+position = Vector2(55.7875, -8.7547)
 shape = SubResource("RectangleShape2D_st4rl")
 
 [node name="Area2D" type="Area2D" parent="backWall"]
@@ -65,12 +67,13 @@ shape = SubResource("RectangleShape2D_ddfje")
 debug_color = Color(0.110359, 0.62201, 0.516468, 0.42)
 
 [node name="floor" type="StaticBody2D" parent="."]
+position = Vector2(0, 1)
 collision_layer = 8
 collision_mask = 13
 script = ExtResource("4_rcga1")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="floor"]
-position = Vector2(799.5, 4.5)
+position = Vector2(728, 4)
 shape = SubResource("RectangleShape2D_u1j2q")
 
 [node name="Area2D" type="Area2D" parent="floor"]
@@ -84,17 +87,17 @@ shape = SubResource("RectangleShape2D_dorem")
 debug_color = Color(0.110359, 0.62201, 0.516468, 0.42)
 
 [node name="Pitcher" parent="." instance=ExtResource("5_lula8")]
-position = Vector2(12, -19)
+position = Vector2(28, -16)
 timeToPitch = 3.0
 
 [node name="strike Zone" parent="." instance=ExtResource("6_4r4bg")]
 position = Vector2(-172, 1)
 
 [node name="homePlate" parent="." instance=ExtResource("3_t7pfu")]
-position = Vector2(-146, -3)
+position = Vector2(-146, -4)
 
 [node name="second" parent="." instance=ExtResource("3_t7pfu")]
-position = Vector2(-20, -3)
+position = Vector2(0, -4)
 
 [node name="playLabel" type="Label" parent="."]
 offset_left = -33.0

@@ -33,6 +33,7 @@ position = Vector2(0, -1)
 rotation = 1.5708
 
 [node name="FieldingRange" type="Area2D" parent="."]
+visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="FieldingRange"]
 position = Vector2(0, -1)

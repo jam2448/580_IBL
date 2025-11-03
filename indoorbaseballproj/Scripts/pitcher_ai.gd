@@ -15,7 +15,7 @@ var currentBall: RigidBody2D = null
 
 #variables for the pitcher
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
-var speed = 75.0
+var speed = 70.0
 var isChasing := false # is the pitcher chasing the ball?
 var isPitched := false #has the pitcher pitched the ball?
 var isFielded := false # has the pitcher fielded the ball?
@@ -24,7 +24,7 @@ var hasThrown = false #has he pitcher thrown the ball outside of piching
 var isPickedUp = false #has the piutcher picked up the ball
 var pitcherStartPos : Vector2
 @onready var releasePoint = $ReleasePoint
-@onready var fieldingArea = $Area2D
+@onready var fieldingArea = $FieldingRange
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -47,7 +47,10 @@ func _on_timer_timeout():
 func throwPitch():
 	#as long as the gameball is not null, instantiate it at the release point and make it travel to the pitch direction
 	if gameBall:
+		
 		currentBall = gameBall.instantiate()
+		currentBall.gravity_scale = randf_range(-0.02, 0.08)
+		currentBall.speed = randf_range(200, 250)
 		get_tree().current_scene.add_child(currentBall)
 		currentBall.global_position = releasePoint.global_position
 		var shoot_direction = releasePoint.transform.x.normalized()
@@ -71,7 +74,6 @@ func _physics_process(delta: float) -> void:
 	#When the ball is fielded, if the ball is caught in the air, then reset
 	#if it bounces the ai will run to the base
 	if isFielded:
-		
 		#if the pitcher contacts the ball before it hits the ground, the batter is out 
 		if floor.hasBounced == false:
 			gameManager.playLabel.global_position.x = global_position.x
@@ -94,12 +96,12 @@ func _physics_process(delta: float) -> void:
 			#if they are close, then try and throw the ball home and get them out 
 			else:
 				if currentBall && not hasThrown:
-					#print("inside of the throw ball statement")
+					print("inside of the throw ball statement")
 					currentBall.global_position = releasePoint.global_position
 					var throwDirection = (batter.HOME - releasePoint.global_position).normalized()
 					var throw_speed = 250.0  # Adjust for your game’s scale
 					currentBall.linear_velocity = throwDirection * throw_speed
-					hasThrown == true
+					isFielded = false
 					
 					#slow the pitcher down 
 					velocity.x = direction.x * 40.0
@@ -124,7 +126,7 @@ func _process(_delta: float) -> void:
 	
 	#if the ball is fielded and it is the correct ball attach it to the release point
 	if isFielded && currentBall:
-		print("setting the ball position to releasePoint")
+		#print("setting the ball position to releasePoint")
 		currentBall.global_position = releasePoint.global_position
 		isPickedUp = true
 		
@@ -148,7 +150,7 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		isChasing = false
 		isFielded = true
 		# Freeze physics so we can move/reparent safely
-		currentBall.freeze = true
+		#currentBall.freeze = true
 		currentBall.linear_velocity = Vector2.ZERO
 		currentBall.angular_velocity = 0
 	
@@ -159,8 +161,14 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		velocity.x = 0
 		await get_tree().create_timer(1).timeout
 		gameManager.reset()
-	else: 
-		print("tagged the runner but they are safe")
+	
+	if(body == batter && isFielded && batter.isSafe):
+		print("batter is safe (pitcherAI)")
+		gameManager.playLabel.global_position.x = batter.global_position.x
+		gameManager.playLabel.text = "Safe!"
+		velocity.x = 0
+		await get_tree().create_timer(1).timeout
+		gameManager.reset()
 		
 		
 

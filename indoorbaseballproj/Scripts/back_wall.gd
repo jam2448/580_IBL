@@ -18,6 +18,7 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 	if (gameManager.strikes == 2):
 		gameManager.strikes = 2
 	else:
+		print("hit back wall else")
 		gameManager.strikes += 1
 	
 	gameManager.count_label.text = ""

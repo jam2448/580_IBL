@@ -5,7 +5,7 @@
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_5t85m"]
 rough = true
-bounce = 0.38
+bounce = 0.39
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_vrjb3"]
 radius = 2.5
@@ -14,7 +14,7 @@ radius = 2.5
 collision_layer = 4
 collision_mask = 10
 physics_material_override = SubResource("PhysicsMaterial_5t85m")
-gravity_scale = 0.0
+gravity_scale = 0.1
 script = ExtResource("1_c5u8g")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

@@ -29,7 +29,7 @@ var hitBall := false
 @onready var advance_button = controls.get_node("Advance")
 @onready var return_button = controls.get_node("Return")
 @onready var swing_button = controls.get_node("Swing")
-var ghostRunner
+@export var ghostRunner: PackedScene
 
 
 # Called when the node enters the scene tree for the first time.
@@ -59,16 +59,34 @@ func checkCount():
 	# 4 balls = walk (they get second base)
 	# 3 strieks = strikeout (one out is added)
 	if balls == 4:
+		playLabel.global_position = kZone.global_position
+		playLabel.global_position.y += 7 #adjust the position of where the text will be
+		playLabel.global_position.x -= 5
+		playLabel.text = "Walk!"
+		await get_tree().create_timer(0.5).timeout
+		
 		reset()
-		print("walk")
+
 	elif strikes == 3:
+		
+		playLabel.global_position = kZone.global_position
+		playLabel.global_position.y += 7
+		playLabel.global_position.x -= 5
+		playLabel.text = "Strikeout!"
+		await get_tree().create_timer(0.5).timeout
 		reset()
-		print("strikeout")
+
 
 
 #Resets the entire play back to the starting state
 func reset():
 	
+	
+	# If the batter is safe on second base, spawn a ghost runner
+	if batter.isSafe and batter.currentBase == batter.SECOND_BASE:
+		spawnGhostRunner()
+	
+	#clear the play label text
 	playLabel.text = ""
 	
 	#stop the pitcher and batter from moving
@@ -93,11 +111,14 @@ func reset():
 	
 	#if a K or walk occurs, reset the count
 	if strikes == 3 || balls == 4:
+		if balls == 4:
+			spawnGhostRunner()
+		
 		balls = 0
 		strikes = 0
 		count_label.text = ""
 		count_label.text = "0-0"
-	
+
 	#remove the current ball in the scene if it is still there 
 	if gameball:
 		gameball.queue_free()
@@ -127,14 +148,13 @@ func reset():
 	batter.targetbase = batter.SECOND_BASE
 	batter.currentBase = batter.HOME
 	
-	
-	
 	#restart the pitcher timer to throw the ball, reset timer & camera,
 	pitcher.restartTimer() 
 	timerStarted = false
 	floor.hasBounced = false
 	hitBall = false
 	kZone.isHit = false
+	kZone.isStrike = false
 	camera.global_position = cameraStartPos
 	$Timer.stop()
 
@@ -171,6 +191,15 @@ func findBall(ball: RigidBody2D) -> void:
 func _on_timer_timeout() -> void:
 	reset()
 	
+
+func spawnGhostRunner():
+	print("Spawning ghost runner at second base")
+	#	 Instantiate the ghost runner
+	var ghost_instance = ghostRunner.instantiate()
+	# Add it to the current scene (so it appears in the game)
+	get_tree().current_scene.add_child(ghost_instance)
+	# Set its position to second base
+	ghost_instance.global_position = batter.SECOND_BASE
 #func update_camera_zoom() -> void:
 	#var screen_rect = Rect2(
 		#camera.get_screen_center_position() - (camera.get_viewport_rect().size / 2) * camera.zoom,
