@@ -1,6 +1,7 @@
-[gd_scene load_steps=16 format=3 uid="uid://ch8h73shj8bmj"]
+[gd_scene load_steps=23 format=3 uid="uid://ch8h73shj8bmj"]
 
 [ext_resource type="PackedScene" uid="uid://b8ecnkfc65q3" path="res://Scenes/batter.tscn" id="1_snma1"]
+[ext_resource type="Script" path="res://Scripts/front_wall.gd" id="2_slvpn"]
 [ext_resource type="PackedScene" uid="uid://cso60hihmbwrx" path="res://Scenes/touch_conrrols.tscn" id="2_wao6q"]
 [ext_resource type="PackedScene" uid="uid://cq46oi4vm01gs" path="res://Scenes/ghost_runner.tscn" id="3_83gm0"]
 [ext_resource type="PackedScene" uid="uid://dfqkruki0gsy7" path="res://Scenes/base.tscn" id="3_t7pfu"]
@@ -12,11 +13,24 @@
 [ext_resource type="PackedScene" uid="uid://dwv5vjo0xkpfw" path="res://Scenes/strikeZone.tscn" id="6_4r4bg"]
 [ext_resource type="FontFile" uid="uid://b0p1a6xq0ixlv" path="res://Assets/fonts/fonts/Ithaca-LVB75.ttf" id="7_tdruc"]
 
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_gnded"]
+bounce = 0.09
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ia0ni"]
+size = Vector2(237, 8)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gh6db"]
+size = Vector2(237, 8)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_st4rl"]
-size = Vector2(261.504, 6.4965)
+size = Vector2(238.049, 7.87148)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ddfje"]
-size = Vector2(268.068, 9.18972)
+size = Vector2(238.066, 7.87149)
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_3j1hm"]
+friction = 0.37
+bounce = 0.12
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_u1j2q"]
 size = Vector2(2120, 12)
@@ -24,26 +38,44 @@ size = Vector2(2120, 12)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dorem"]
 size = Vector2(2394, 14)
 
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_x8c6q"]
+friction = 0.11
+bounce = 0.3
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7ffbn"]
+size = Vector2(527, 10)
+
 [node name="Node2D" type="Node2D"]
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="." node_paths=PackedStringArray("home_plate")]
 unique_name_in_owner = true
 position = Vector2(55, -31)
 zoom = Vector2(2.2, 2.2)
 position_smoothing_enabled = true
 position_smoothing_speed = 2.0
 script = ExtResource("4_orq80")
+home_plate = NodePath("../homePlate")
 
-[node name="GameManager" type="Node" parent="."]
-unique_name_in_owner = true
-script = ExtResource("4_4mkok")
-ghostRunner = ExtResource("3_83gm0")
+[node name="frontWall" type="StaticBody2D" parent="."]
+position = Vector2(330, -94)
+rotation = 1.5708
+collision_layer = 8
+collision_mask = 13
+physics_material_override = SubResource("PhysicsMaterial_gnded")
+script = ExtResource("2_slvpn")
 
-[node name="Timer" type="Timer" parent="GameManager"]
-wait_time = 1.5
+[node name="CollisionShape2D" type="CollisionShape2D" parent="frontWall"]
+position = Vector2(-25.5, 2)
+shape = SubResource("RectangleShape2D_ia0ni")
 
-[node name="batter" parent="." instance=ExtResource("1_snma1")]
-position = Vector2(-145, -7)
+[node name="Area2D" type="Area2D" parent="frontWall"]
+collision_layer = 8
+collision_mask = 13
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="frontWall/Area2D"]
+position = Vector2(-25.5, 1.99994)
+shape = SubResource("RectangleShape2D_gh6db")
+debug_color = Color(0.82404, 0.399217, 3.85046e-07, 0.42)
 
 [node name="backWall" type="StaticBody2D" parent="."]
 position = Vector2(-182, -75)
@@ -53,7 +85,7 @@ collision_mask = 13
 script = ExtResource("4_w5ul7")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="backWall"]
-position = Vector2(55.7875, -8.7547)
+position = Vector2(44.0597, -7.96313)
 shape = SubResource("RectangleShape2D_st4rl")
 
 [node name="Area2D" type="Area2D" parent="backWall"]
@@ -62,7 +94,7 @@ collision_layer = 2
 collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="backWall/Area2D"]
-position = Vector2(-35.0397, 5.76345)
+position = Vector2(-50.0411, 5.4017)
 shape = SubResource("RectangleShape2D_ddfje")
 debug_color = Color(0.110359, 0.62201, 0.516468, 0.42)
 
@@ -70,6 +102,7 @@ debug_color = Color(0.110359, 0.62201, 0.516468, 0.42)
 position = Vector2(0, 1)
 collision_layer = 8
 collision_mask = 13
+physics_material_override = SubResource("PhysicsMaterial_3j1hm")
 script = ExtResource("4_rcga1")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="floor"]
@@ -86,12 +119,34 @@ position = Vector2(601, 6)
 shape = SubResource("RectangleShape2D_dorem")
 debug_color = Color(0.110359, 0.62201, 0.516468, 0.42)
 
+[node name="celing" type="StaticBody2D" parent="."]
+position = Vector2(60, -220)
+collision_layer = 8
+collision_mask = 13
+physics_material_override = SubResource("PhysicsMaterial_x8c6q")
+constant_angular_velocity = 0.174533
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="celing"]
+position = Vector2(9, -23)
+shape = SubResource("RectangleShape2D_7ffbn")
+
+[node name="GameManager" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("4_4mkok")
+ghostRunner = ExtResource("3_83gm0")
+
+[node name="Timer" type="Timer" parent="GameManager"]
+wait_time = 1.5
+
+[node name="batter" parent="." instance=ExtResource("1_snma1")]
+position = Vector2(-145, -7)
+
 [node name="Pitcher" parent="." instance=ExtResource("5_lula8")]
 position = Vector2(28, -16)
 timeToPitch = 3.0
 
 [node name="strike Zone" parent="." instance=ExtResource("6_4r4bg")]
-position = Vector2(-172, 1)
+position = Vector2(-174, 1)
 
 [node name="homePlate" parent="." instance=ExtResource("3_t7pfu")]
 position = Vector2(-146, -4)
@@ -102,8 +157,8 @@ position = Vector2(0, -4)
 [node name="playLabel" type="Label" parent="."]
 offset_left = -33.0
 offset_top = -60.0
-offset_right = -4.0
-offset_bottom = -43.0
+offset_right = 30.0
+offset_bottom = -37.0
 theme_override_fonts/font = ExtResource("7_tdruc")
 theme_override_font_sizes/font_size = 16
 horizontal_alignment = 1
@@ -176,8 +231,9 @@ theme_override_font_sizes/font_size = 48
 text = "0"
 horizontal_alignment = 1
 
-[connection signal="timeout" from="GameManager/Timer" to="GameManager" method="_on_timer_timeout"]
+[connection signal="body_entered" from="frontWall/Area2D" to="frontWall" method="_on_area_2d_body_entered"]
 [connection signal="body_entered" from="backWall/Area2D" to="backWall" method="_on_area_2d_body_entered"]
 [connection signal="body_entered" from="floor/Area2D" to="floor" method="_on_area_2d_body_entered"]
+[connection signal="timeout" from="GameManager/Timer" to="GameManager" method="_on_timer_timeout"]
 [connection signal="body_entered" from="homePlate" to="batter" method="_on_home_plate_body_entered"]
 [connection signal="body_entered" from="second" to="batter" method="_on_second_body_entered"]

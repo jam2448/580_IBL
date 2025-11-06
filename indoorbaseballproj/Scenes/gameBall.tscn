@@ -5,7 +5,7 @@
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_5t85m"]
 rough = true
-bounce = 0.39
+bounce = 0.5
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_vrjb3"]
 radius = 2.5
@@ -15,6 +15,7 @@ collision_layer = 4
 collision_mask = 10
 physics_material_override = SubResource("PhysicsMaterial_5t85m")
 gravity_scale = 0.1
+continuous_cd = 1
 script = ExtResource("1_c5u8g")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -31,4 +32,5 @@ texture = ExtResource("2_4qhkf")
 wait_time = 3.0
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_shape_entered" from="." to="." method="_on_body_shape_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

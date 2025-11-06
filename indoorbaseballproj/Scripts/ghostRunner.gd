@@ -3,6 +3,7 @@ extends CharacterBody2D
 # Get references after the scene is ready
 @onready var gameManager = get_node("../GameManager")
 @onready var second: Node2D = null
+var isSafe := true
 
 var homePlate
 

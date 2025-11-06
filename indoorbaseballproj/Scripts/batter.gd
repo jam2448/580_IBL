@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 # Variables to help/track player movement
-const SPEED = 30.0
+const SPEED = 35.0
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var advancing = false
 var returning = false
@@ -19,6 +19,7 @@ var rest_rotation := 0.0
 @onready var HOME = get_node("../homePlate").global_position
 @onready var controls = get_node("../Control/TouchControls")
 @onready var gameManager = get_node("%GameManager")
+@onready var hitRange = $Area2D
 
 # Reference to the bat
 @export var batScene: PackedScene
@@ -44,6 +45,11 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	# Apply gravity
+	
+	if(gameManager.pitcher.isFielded):
+		hitRange.set_collision_mask_value(3, true)
+	
+	
 	if not is_on_floor():
 		velocity.y += gravity * delta
 	
@@ -59,6 +65,7 @@ func _physics_process(delta: float) -> void:
 
 	# Trigger swing if pressed and not already swinging
 	if Input.is_action_just_pressed("swing") and not swinging:
+		print("I am Swinging!")
 		swinging = true
 		swing_progress = 0.0
 		$Timer.start()
@@ -105,3 +112,14 @@ func _on_home_plate_body_entered(body: Node2D) -> void:
 
 func _on_timer_timeout() -> void:
 	pass # Replace with function body.
+
+
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	if  body is RigidBody2D && gameManager.pitcher.hasThrown == true && isSafe == false:
+		gameManager.playLabel.global_position = global_position
+		gameManager.playLabel.global_position.y -= 15
+		gameManager.playLabel.text = "OUT!"
+		await get_tree().create_timer(1).timeout
+		gameManager.reset()
+		
+		

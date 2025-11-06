@@ -20,7 +20,7 @@ var isChasing := false # is the pitcher chasing the ball?
 var isPitched := false #has the pitcher pitched the ball?
 var isFielded := false # has the pitcher fielded the ball?
 var isReady := true 
-var hasThrown = false #has he pitcher thrown the ball outside of piching
+var hasThrown := false #has he pitcher thrown the ball outside of piching
 var isPickedUp = false #has the piutcher picked up the ball
 var pitcherStartPos : Vector2
 @onready var releasePoint = $ReleasePoint
@@ -32,7 +32,7 @@ func _ready() -> void:
 	$Timer.wait_time = timeToPitch
 	$Timer.start()
 	pitcherStartPos = global_position
-	
+	set_collision_mask_value(1, false)
 	
 	#when the bat is instantiated, then connect connect the signal to this script
 	if bat:
@@ -49,7 +49,7 @@ func throwPitch():
 	if gameBall:
 		
 		currentBall = gameBall.instantiate()
-		currentBall.gravity_scale = randf_range(-0.02, 0.08)
+		currentBall.gravity_scale = randf_range(0.007, 0.075)
 		currentBall.speed = randf_range(200, 250)
 		get_tree().current_scene.add_child(currentBall)
 		currentBall.global_position = releasePoint.global_position
@@ -74,13 +74,19 @@ func _physics_process(delta: float) -> void:
 	#When the ball is fielded, if the ball is caught in the air, then reset
 	#if it bounces the ai will run to the base
 	if isFielded:
+		currentBall.set_collision_mask_value(1,true)
 		#if the pitcher contacts the ball before it hits the ground, the batter is out 
 		if floor.hasBounced == false:
 			gameManager.playLabel.global_position.x = global_position.x
 			gameManager.playLabel.text = "Out!"
 			velocity.x = 0
-			await get_tree().create_timer(1).timeout
+			await get_tree().create_timer(0.75).timeout
 			gameManager.reset()
+		
+		#if the batter has scored, try and tag the runner
+		elif batter.hasScored:
+			direction = (batter.global_position - global_position).normalized()
+			velocity.x = direction.x * speed
 		
 		#if the batter is not near the base yet then try to tag the base
 		elif batter.global_position.distance_to(batter.targetbase) >= 30 && batter.targetbase == batter.SECOND_BASE:
@@ -93,18 +99,19 @@ func _physics_process(delta: float) -> void:
 			if batter.global_position.distance_to(batter.targetbase) >= 50:
 				direction = (batter.global_position - global_position).normalized()
 				velocity.x = direction.x * speed
-			#if they are close, then try and throw the ball home and get them out 
+			#if they are close and pitcher is within a reasonable distance, then try and throw the ball home and get them out 
 			else:
-				if currentBall && not hasThrown:
-					print("inside of the throw ball statement")
+				if currentBall && not hasThrown && global_position.distance_to(batter.targetbase) < 150:
 					currentBall.global_position = releasePoint.global_position
-					var throwDirection = (batter.HOME - releasePoint.global_position).normalized()
-					var throw_speed = 250.0  # Adjust for your game’s scale
+					var throwDirection = (batter.global_position - releasePoint.global_position).normalized()
+					var throw_speed = 350.0  # Adjust for your game’s scale
 					currentBall.linear_velocity = throwDirection * throw_speed
 					isFielded = false
+					isChasing = true
+					hasThrown = true
 					
 					#slow the pitcher down 
-					velocity.x = direction.x * 40.0
+					velocity.x = 0
 				
 		#if none of the above things happen, then run the ball back in 
 		else:
@@ -113,10 +120,14 @@ func _physics_process(delta: float) -> void:
 		
 	
 	#if the pitcher ia supposed to be chasing the ball, then chase it
-	if(isChasing):
-		fieldingArea.set_collision_mask_value(3, true)
-		direction = (currentBall.global_position - global_position).normalized()
-		velocity.x = direction.x * speed
+	if isChasing:
+		await get_tree().create_timer(0.3).timeout
+		if currentBall:  # 
+			fieldingArea.set_collision_mask_value(3, true)
+			direction = (currentBall.global_position - global_position).normalized()
+			velocity.x = direction.x * speed
+
+
 
 	move_and_slide()
 
@@ -163,7 +174,6 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		gameManager.reset()
 	
 	if(body == batter && isFielded && batter.isSafe):
-		print("batter is safe (pitcherAI)")
 		gameManager.playLabel.global_position.x = batter.global_position.x
 		gameManager.playLabel.text = "Safe!"
 		velocity.x = 0

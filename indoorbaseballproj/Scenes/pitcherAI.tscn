@@ -12,6 +12,7 @@ size = Vector2(6, 32)
 size = Vector2(12, 39)
 
 [node name="Pitcher" type="CharacterBody2D"]
+collision_layer = 4
 collision_mask = 9
 script = ExtResource("1_whe6j")
 gameBall = ExtResource("2_e3hv2")
@@ -29,7 +30,7 @@ texture = SubResource("PlaceholderTexture2D_ugx3c")
 shape = SubResource("RectangleShape2D_v6cit")
 
 [node name="ReleasePoint" type="Node2D" parent="."]
-position = Vector2(0, -1)
+position = Vector2(0, -5)
 rotation = 1.5708
 
 [node name="FieldingRange" type="Area2D" parent="."]

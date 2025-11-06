@@ -1,7 +1,7 @@
 extends Area2D
 
 #Bat Variables
-@export var hit_force := 500.0
+@export var hit_force := 750.0
 @export var hit_direction := Vector2.LEFT
 
 signal contact_made(body) 
@@ -26,6 +26,10 @@ func _on_body_entered(body: Node2D) -> void:
 		
 		var force = hit_direction.rotated(global_rotation) * hit_force
 		ball.apply_central_impulse(force)
+		
+		if ball.linear_velocity.length() > 750.0:
+			ball.linear_velocity = ball.linear_velocity.normalized() * 750.0
+			print(ball.linear.velocity)
 		
 		body.gravity_scale = 1
 		gameManager.balls = 0

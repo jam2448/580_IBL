@@ -11,6 +11,8 @@ var isTopofInning = true
 var cameraStartPos = Vector2(55, -31)
 var timerStarted := false
 var hitBall := false
+var runnerOn := false
+var bat_scene = preload("res://Scenes/bat.tscn")
 
 #get necessary game lements to control the game
 @onready var controls = $"../Control/TouchControls"
@@ -22,6 +24,8 @@ var hitBall := false
 @onready var camera = %Camera2D
 @onready var pitcher = $"../Pitcher"
 @onready var batter = $"../batter"
+@onready var secondBase = $"../second"
+@onready var homePlate = $"../homePlate"
 @onready var floor = get_node("../floor")
 @onready var bat = get_node("../batter/hands/bat")
 @onready var batHands = get_node("../batter/hands")
@@ -30,6 +34,7 @@ var hitBall := false
 @onready var return_button = controls.get_node("Return")
 @onready var swing_button = controls.get_node("Swing")
 @export var ghostRunner: PackedScene
+var ghost_instance
 
 
 # Called when the node enters the scene tree for the first time.
@@ -37,14 +42,12 @@ func _ready() -> void:
 	#disbale the baserunning buttons to start
 	advance_button.action = ""
 	return_button.action = ""
-	
-	pass
+	swing_button.action = "swing"
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	checkCount() # check the current game count 
-	
-	#update_camera_zoom()
+
 	#if the ball hits the Kzone or is hit backwards, reset the scene
 	if gameball:
 		if gameball.global_position.x <= -165 || kZone.isHit:
@@ -63,7 +66,7 @@ func checkCount():
 		playLabel.global_position.y += 7 #adjust the position of where the text will be
 		playLabel.global_position.x -= 5
 		playLabel.text = "Walk!"
-		await get_tree().create_timer(0.5).timeout
+		await get_tree().create_timer(1).timeout
 		
 		reset()
 
@@ -73,7 +76,7 @@ func checkCount():
 		playLabel.global_position.y += 7
 		playLabel.global_position.x -= 5
 		playLabel.text = "Strikeout!"
-		await get_tree().create_timer(0.5).timeout
+		await get_tree().create_timer(1).timeout
 		reset()
 
 
@@ -81,10 +84,32 @@ func checkCount():
 #Resets the entire play back to the starting state
 func reset():
 	
-	
+	# Check if there's a ghost runner and handle scoring before reset logic
+	if runnerOn and ghost_instance and is_instance_valid(ghost_instance):
+		var distance_to_home = ghost_instance.global_position.distance_to(batter.HOME)
+		
+		# If ghost runner is close to home (you can adjust the threshold)
+		if distance_to_home < 40.0:
+			print("Ghost runner scored before reset!")
+			increaseScore(1)
+			ghost_instance.queue_free()
+			runnerOn = false
+		else:
+			# Move ghost runner back to second base
+			print("Returning ghost runner to second base")
+			ghost_instance.global_position = batter.SECOND_BASE
+			ghost_instance.velocity.x = 0
+			print(runnerOn)
+
+
 	# If the batter is safe on second base, spawn a ghost runner
-	if batter.isSafe and batter.currentBase == batter.SECOND_BASE:
+	if batter.isSafe and secondBase.onSecond:
 		spawnGhostRunner()
+	else:
+		#if a ghost runner is not supposed to be on, then remove them
+		if !runnerOn and ghost_instance and is_instance_valid(ghost_instance):
+			ghost_instance.queue_free()
+			
 	
 	#clear the play label text
 	playLabel.text = ""
@@ -100,17 +125,17 @@ func reset():
 	batter.hasScored = false
 	Input.action_release("advanceRunners")
 	Input.action_release("returnRunners")
+	Input.action_release("swing")
 
 
 	#reset Controls
 	advance_button.action = ""
 	return_button.action = ""
-	Input.flush_buffered_events()
 	swing_button.action = "swing"
 
 	
 	#if a K or walk occurs, reset the count
-	if strikes == 3 || balls == 4:
+	if strikes == 3 || balls == 4 || hitBall:
 		if balls == 4:
 			spawnGhostRunner()
 		
@@ -130,7 +155,6 @@ func reset():
 	
 	#give the batter their bat back if needed 
 	if hitBall:
-		var bat_scene = preload("res://Scenes/bat.tscn")
 		var new_bat = bat_scene.instantiate()
 		
 		# Reattach to batter’s hand
@@ -155,18 +179,19 @@ func reset():
 	hitBall = false
 	kZone.isHit = false
 	kZone.isStrike = false
+	camera.target = null
 	camera.global_position = cameraStartPos
+	camera.zoom = Vector2(2.2,2.2)
 	$Timer.stop()
 
 
 #When the batter touches homeplate while running, then they score a run. Adds a point
-func increaseScore():
+func increaseScore(number):
 	if (isTopofInning):
-		awayScore += 1
+		awayScore += number
 		away_score.text = str(awayScore)
-		print("Score increased! Score is now " + str(awayScore))
 	else:
-		homeScore += 1
+		homeScore += number
 		home_score.text = str(homeScore)
 
 #connects the signal that the bat emits to this script
@@ -182,6 +207,7 @@ func _on_bat_hit(_body):
 	swing_button.action = ""
 
 
+
 #find the ball pitched by the pitcher 
 func findBall(ball: RigidBody2D) -> void:
 	if ball:
@@ -193,21 +219,11 @@ func _on_timer_timeout() -> void:
 	
 
 func spawnGhostRunner():
-	print("Spawning ghost runner at second base")
 	#	 Instantiate the ghost runner
-	var ghost_instance = ghostRunner.instantiate()
+	ghost_instance = ghostRunner.instantiate()
 	# Add it to the current scene (so it appears in the game)
 	get_tree().current_scene.add_child(ghost_instance)
 	# Set its position to second base
 	ghost_instance.global_position = batter.SECOND_BASE
-#func update_camera_zoom() -> void:
-	#var screen_rect = Rect2(
-		#camera.get_screen_center_position() - (camera.get_viewport_rect().size / 2) * camera.zoom,
-		#camera.get_viewport_rect().size * camera.zoom
-	#)
-#
-	## If batter is off-screen, zoom out smoothly
-	#if not screen_rect.has_point(batter.global_position):
-		#camera.zoom = camera.zoom.lerp(Vector2(1.5, 1.5), 0.05)
-	#else:
-		#camera.zoom = camera.zoom.lerp(Vector2(2.2, 2.2), 0.05)
+	runnerOn = true
+	

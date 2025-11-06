@@ -2,6 +2,7 @@ extends RigidBody2D
 
 #set the speed & direction of the ball
 @export var speed = 200.0
+@onready var gameManager = get_node("../%GameManager")
 
 #@onready var timer = $Timer
 var direction = Vector2.LEFT
@@ -11,3 +12,6 @@ var direction = Vector2.LEFT
 func _ready() -> void:
 	linear_velocity = direction.normalized() * speed
 	set_collision_mask_value(1, false)
+
+func _process(delta: float) -> void:
+	pass
