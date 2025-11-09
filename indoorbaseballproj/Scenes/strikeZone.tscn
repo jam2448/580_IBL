@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://dwv5vjo0xkpfw"]
 
-[ext_resource type="Script" path="res://strike_zone.gd" id="1_gdetu"]
+[ext_resource type="Script" path="res://Scripts/strike_zone.gd" id="1_gdetu"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_62b5u"]
 size = Vector2(2, 14.25)
@@ -12,7 +12,7 @@ size = Vector2(2.5, 34)
 
 [node name="strikeZone" type="Area2D"]
 collision_layer = 2
-collision_mask = 13
+collision_mask = 12
 script = ExtResource("1_gdetu")
 
 [node name="Kzone" type="CollisionShape2D" parent="."]

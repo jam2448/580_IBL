@@ -8,10 +8,12 @@ var balls := 0
 var strikes := 0
 var outs := 0
 var isTopofInning = true
-var cameraStartPos = Vector2(55, -31)
+var cameraStartPos = Vector2(66, -46)
 var timerStarted := false
 var hitBall := false
 var runnerOn := false
+var didSwing := false
+var playMade := false
 var bat_scene = preload("res://Scenes/bat.tscn")
 
 #get necessary game lements to control the game
@@ -50,7 +52,10 @@ func _process(_delta: float) -> void:
 
 	#if the ball hits the Kzone or is hit backwards, reset the scene
 	if gameball:
-		if gameball.global_position.x <= -165 || kZone.isHit:
+		if gameball.global_position.x <= -175 || kZone.isHit:
+			if hitBall:
+				playLabel.global_position.x = batter.global_position.x - 15
+				playLabel.text = "Foul!"
 			if timerStarted == false:
 				$Timer.start()
 				timerStarted = true
@@ -90,16 +95,15 @@ func reset():
 		
 		# If ghost runner is close to home (you can adjust the threshold)
 		if distance_to_home < 40.0:
-			print("Ghost runner scored before reset!")
 			increaseScore(1)
 			ghost_instance.queue_free()
 			runnerOn = false
 		else:
-			# Move ghost runner back to second base
-			print("Returning ghost runner to second base")
-			ghost_instance.global_position = batter.SECOND_BASE
-			ghost_instance.velocity.x = 0
-			print(runnerOn)
+			if ghost_instance.hasMoved:
+				# Move ghost runner back to second base
+				ghost_instance.global_position = batter.SECOND_BASE
+				ghost_instance.velocity.x = 0
+				print(runnerOn)
 
 
 	# If the batter is safe on second base, spawn a ghost runner
@@ -110,8 +114,10 @@ func reset():
 		if !runnerOn and ghost_instance and is_instance_valid(ghost_instance):
 			ghost_instance.queue_free()
 			
+			
 	
 	#clear the play label text
+	playLabel.add_theme_font_size_override("font_size", 16)
 	playLabel.text = ""
 	
 	#stop the pitcher and batter from moving
@@ -180,6 +186,8 @@ func reset():
 	kZone.isHit = false
 	kZone.isStrike = false
 	camera.target = null
+	didSwing = false
+	playMade = false
 	camera.global_position = cameraStartPos
 	camera.zoom = Vector2(2.2,2.2)
 	$Timer.stop()
@@ -205,8 +213,6 @@ func _on_bat_hit(_body):
 	advance_button.action = "advanceRunners"
 	return_button.action = "returnRunners"
 	swing_button.action = ""
-
-
 
 #find the ball pitched by the pitcher 
 func findBall(ball: RigidBody2D) -> void:

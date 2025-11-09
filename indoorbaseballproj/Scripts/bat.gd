@@ -6,7 +6,6 @@ extends Area2D
 
 signal contact_made(body) 
 
-
 #external variables
 @onready var gameManager = get_node("/root/Node2D/GameManager")
 @onready var camera = get_node("../../../Camera2D")

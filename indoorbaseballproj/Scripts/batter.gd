@@ -46,6 +46,7 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	# Apply gravity
 	
+	#once the ball is fielded allow the batter to get hit by tha ball
 	if(gameManager.pitcher.isFielded):
 		hitRange.set_collision_mask_value(3, true)
 	
@@ -65,7 +66,6 @@ func _physics_process(delta: float) -> void:
 
 	# Trigger swing if pressed and not already swinging
 	if Input.is_action_just_pressed("swing") and not swinging:
-		print("I am Swinging!")
 		swinging = true
 		swing_progress = 0.0
 		$Timer.start()
@@ -76,6 +76,8 @@ func _physics_process(delta: float) -> void:
 		if swing_progress < 0.5:
 			# first half of swing (down/forward)
 			batInstance.rotation = rest_rotation + lerp(0.0, swing_angle, swing_progress * 2)
+			gameManager.didSwing = true
+			
 		else:
 			# done swinging
 			batInstance.rotation = rest_rotation
@@ -115,10 +117,15 @@ func _on_timer_timeout() -> void:
 
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
+	if gameManager.playMade:
+		return
+		
+	#if the batter gets hit with the ball they are out 
 	if  body is RigidBody2D && gameManager.pitcher.hasThrown == true && isSafe == false:
 		gameManager.playLabel.global_position = global_position
-		gameManager.playLabel.global_position.y -= 15
+		gameManager.playLabel.global_position.y -= 45
 		gameManager.playLabel.text = "OUT!"
+		gameManager.playMade = true
 		await get_tree().create_timer(1).timeout
 		gameManager.reset()
 		

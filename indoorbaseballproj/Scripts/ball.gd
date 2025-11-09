@@ -12,6 +12,3 @@ var direction = Vector2.LEFT
 func _ready() -> void:
 	linear_velocity = direction.normalized() * speed
 	set_collision_mask_value(1, false)
-
-func _process(delta: float) -> void:
-	pass

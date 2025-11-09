@@ -47,7 +47,6 @@ func _on_timer_timeout():
 func throwPitch():
 	#as long as the gameball is not null, instantiate it at the release point and make it travel to the pitch direction
 	if gameBall:
-		
 		currentBall = gameBall.instantiate()
 		currentBall.gravity_scale = randf_range(0.007, 0.075)
 		currentBall.speed = randf_range(200, 250)
@@ -77,9 +76,10 @@ func _physics_process(delta: float) -> void:
 		currentBall.set_collision_mask_value(1,true)
 		#if the pitcher contacts the ball before it hits the ground, the batter is out 
 		if floor.hasBounced == false:
-			gameManager.playLabel.global_position.x = global_position.x
-			gameManager.playLabel.text = "Out!"
+			gameManager.playLabel.global_position.x = batter.targetbase.x - 15
+			gameManager.playMade = true
 			velocity.x = 0
+			gameManager.playLabel.text = "Out!"
 			await get_tree().create_timer(0.75).timeout
 			gameManager.reset()
 		
@@ -109,9 +109,8 @@ func _physics_process(delta: float) -> void:
 					isFielded = false
 					isChasing = true
 					hasThrown = true
-					
 					#slow the pitcher down 
-					velocity.x = 0
+					velocity.x = 30
 				
 		#if none of the above things happen, then run the ball back in 
 		else:
@@ -126,9 +125,6 @@ func _physics_process(delta: float) -> void:
 			fieldingArea.set_collision_mask_value(3, true)
 			direction = (currentBall.global_position - global_position).normalized()
 			velocity.x = direction.x * speed
-
-
-
 	move_and_slide()
 
 
@@ -140,7 +136,6 @@ func _process(_delta: float) -> void:
 		#print("setting the ball position to releasePoint")
 		currentBall.global_position = releasePoint.global_position
 		isPickedUp = true
-		
 	pass
 
 #Restart the timer 
@@ -167,21 +162,23 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 	
 	#if the pitcher has fielded the ball, and contacts the batter,and the batter is not safe they are out
 	if body == batter && isFielded && batter.isSafe == false:
-		gameManager.playLabel.global_position.x = batter.global_position.x
-		gameManager.playLabel.text = "Out!"
+		gameManager.playMade = true
 		velocity.x = 0
+		gameManager.playLabel.text = "Out!"
 		await get_tree().create_timer(1).timeout
 		gameManager.reset()
 	
+	#if the batter is safe when tagged, then they are safe
 	if(body == batter && isFielded && batter.isSafe):
-		gameManager.playLabel.global_position.x = batter.global_position.x
-		gameManager.playLabel.text = "Safe!"
+		gameManager.playMade = true
 		velocity.x = 0
+		gameManager.playLabel.text = "Safe!"
 		await get_tree().create_timer(1).timeout
 		gameManager.reset()
 		
 		
 
+#when there is a new bat, then reconnect the signal from the old bat to the new 
 func connect_bat_signal(new_bat: Node):
 	if new_bat and not new_bat.is_connected("contact_made", Callable(self, "_on_bat_hit")):
 		new_bat.connect("contact_made", Callable(self, "_on_bat_hit"))

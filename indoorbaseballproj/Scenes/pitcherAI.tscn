@@ -14,6 +14,8 @@ size = Vector2(12, 39)
 [node name="Pitcher" type="CharacterBody2D"]
 collision_layer = 4
 collision_mask = 9
+slide_on_ceiling = false
+safe_margin = 0.001
 script = ExtResource("1_whe6j")
 gameBall = ExtResource("2_e3hv2")
 
@@ -34,7 +36,6 @@ position = Vector2(0, -5)
 rotation = 1.5708
 
 [node name="FieldingRange" type="Area2D" parent="."]
-visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="FieldingRange"]
 position = Vector2(0, -1)

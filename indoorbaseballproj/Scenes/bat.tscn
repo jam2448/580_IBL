@@ -5,7 +5,7 @@
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_pp3y4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qwb7v"]
-size = Vector2(6, 23)
+size = Vector2(6, 22)
 
 [node name="bat" type="Area2D"]
 collision_layer = 2
@@ -18,7 +18,7 @@ scale = Vector2(3.5, 23)
 texture = SubResource("PlaceholderTexture2D_pp3y4")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -13.5)
+position = Vector2(0, -13)
 shape = SubResource("RectangleShape2D_qwb7v")
 one_way_collision_margin = 50.2
 

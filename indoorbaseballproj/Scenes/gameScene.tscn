@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://ch8h73shj8bmj"]
+[gd_scene load_steps=27 format=3 uid="uid://ch8h73shj8bmj"]
 
 [ext_resource type="PackedScene" uid="uid://b8ecnkfc65q3" path="res://Scenes/batter.tscn" id="1_snma1"]
 [ext_resource type="Script" path="res://Scripts/front_wall.gd" id="2_slvpn"]
@@ -22,34 +22,43 @@ size = Vector2(237, 8)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gh6db"]
 size = Vector2(237, 8)
 
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_b8uwo"]
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_st4rl"]
 size = Vector2(238.049, 7.87148)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ddfje"]
 size = Vector2(238.066, 7.87149)
 
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_deb53"]
+
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_3j1hm"]
-friction = 0.37
-bounce = 0.12
+friction = 0.5
+rough = true
+bounce = 0.3
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_u1j2q"]
-size = Vector2(2120, 12)
+size = Vector2(537, 12)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dorem"]
-size = Vector2(2394, 14)
+size = Vector2(537, 11)
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_pkffm"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_x8c6q"]
-friction = 0.11
+friction = 0.0
 bounce = 0.3
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7ffbn"]
 size = Vector2(527, 10)
 
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_8qbbg"]
+
 [node name="Node2D" type="Node2D"]
 
 [node name="Camera2D" type="Camera2D" parent="." node_paths=PackedStringArray("home_plate")]
 unique_name_in_owner = true
-position = Vector2(55, -31)
+position = Vector2(66, -46)
 zoom = Vector2(2.2, 2.2)
 position_smoothing_enabled = true
 position_smoothing_speed = 2.0
@@ -77,6 +86,11 @@ position = Vector2(-25.5, 1.99994)
 shape = SubResource("RectangleShape2D_gh6db")
 debug_color = Color(0.82404, 0.399217, 3.85046e-07, 0.42)
 
+[node name="Sprite2D" type="Sprite2D" parent="frontWall"]
+position = Vector2(-24.7618, 2.02639)
+scale = Vector2(238.803, 9.35558)
+texture = SubResource("PlaceholderTexture2D_b8uwo")
+
 [node name="backWall" type="StaticBody2D" parent="."]
 position = Vector2(-182, -75)
 rotation = -1.57755
@@ -98,6 +112,11 @@ position = Vector2(-50.0411, 5.4017)
 shape = SubResource("RectangleShape2D_ddfje")
 debug_color = Color(0.110359, 0.62201, 0.516468, 0.42)
 
+[node name="Sprite2D" type="Sprite2D" parent="backWall"]
+position = Vector2(44.4461, -8.43431)
+scale = Vector2(238.634, 8.79241)
+texture = SubResource("PlaceholderTexture2D_deb53")
+
 [node name="floor" type="StaticBody2D" parent="."]
 position = Vector2(0, 1)
 collision_layer = 8
@@ -106,7 +125,7 @@ physics_material_override = SubResource("PhysicsMaterial_3j1hm")
 script = ExtResource("4_rcga1")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="floor"]
-position = Vector2(728, 4)
+position = Vector2(70.5, 4)
 shape = SubResource("RectangleShape2D_u1j2q")
 
 [node name="Area2D" type="Area2D" parent="floor"]
@@ -115,9 +134,14 @@ collision_layer = 2
 collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="floor/Area2D"]
-position = Vector2(601, 6)
+position = Vector2(71.5, 4.5)
 shape = SubResource("RectangleShape2D_dorem")
 debug_color = Color(0.110359, 0.62201, 0.516468, 0.42)
+
+[node name="Sprite2D" type="Sprite2D" parent="floor"]
+position = Vector2(71, 4)
+scale = Vector2(530, 10)
+texture = SubResource("PlaceholderTexture2D_pkffm")
 
 [node name="celing" type="StaticBody2D" parent="."]
 position = Vector2(60, -220)
@@ -129,6 +153,11 @@ constant_angular_velocity = 0.174533
 [node name="CollisionShape2D" type="CollisionShape2D" parent="celing"]
 position = Vector2(9, -23)
 shape = SubResource("RectangleShape2D_7ffbn")
+
+[node name="Sprite2D" type="Sprite2D" parent="celing"]
+position = Vector2(9.00001, -23)
+scale = Vector2(528, 10)
+texture = SubResource("PlaceholderTexture2D_8qbbg")
 
 [node name="GameManager" type="Node" parent="."]
 unique_name_in_owner = true
@@ -156,9 +185,9 @@ position = Vector2(0, -4)
 
 [node name="playLabel" type="Label" parent="."]
 offset_left = -33.0
-offset_top = -60.0
+offset_top = -53.0
 offset_right = 30.0
-offset_bottom = -37.0
+offset_bottom = -30.0
 theme_override_fonts/font = ExtResource("7_tdruc")
 theme_override_font_sizes/font_size = 16
 horizontal_alignment = 1
@@ -176,56 +205,56 @@ player_path = NodePath("../../batter")
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="CountLabel" type="Label" parent="CanvasLayer"]
-offset_left = 593.0
-offset_top = 91.0
-offset_right = 661.0
-offset_bottom = 138.0
+offset_left = 539.0
+offset_top = 89.0
+offset_right = 607.0
+offset_bottom = 136.0
 theme_override_fonts/font = ExtResource("7_tdruc")
 theme_override_font_sizes/font_size = 48
 text = " 0-0"
 
 [node name="InningLabel" type="Label" parent="CanvasLayer"]
-offset_left = 595.0
-offset_top = 42.0
-offset_right = 659.0
-offset_bottom = 73.0
+offset_left = 541.0
+offset_top = 40.0
+offset_right = 605.0
+offset_bottom = 71.0
 theme_override_fonts/font = ExtResource("7_tdruc")
 theme_override_font_sizes/font_size = 32
 text = "TOP 1"
 
 [node name="HomeLabel" type="Label" parent="CanvasLayer"]
-offset_left = 473.0
-offset_top = 5.0
-offset_right = 554.0
-offset_bottom = 47.0
+offset_left = 419.0
+offset_top = 3.0
+offset_right = 500.0
+offset_bottom = 45.0
 theme_override_fonts/font = ExtResource("7_tdruc")
 theme_override_font_sizes/font_size = 48
 text = "Home"
 
 [node name="AwayLabel" type="Label" parent="CanvasLayer"]
-offset_left = 697.0
-offset_top = 6.0
-offset_right = 778.0
-offset_bottom = 48.0
+offset_left = 643.0
+offset_top = 4.0
+offset_right = 724.0
+offset_bottom = 46.0
 theme_override_fonts/font = ExtResource("7_tdruc")
 theme_override_font_sizes/font_size = 48
 text = "Away"
 
 [node name="AwayScore" type="Label" parent="CanvasLayer"]
-offset_left = 722.0
-offset_top = 54.0
-offset_right = 763.0
-offset_bottom = 96.0
+offset_left = 668.0
+offset_top = 52.0
+offset_right = 709.0
+offset_bottom = 94.0
 theme_override_fonts/font = ExtResource("7_tdruc")
 theme_override_font_sizes/font_size = 48
 text = "0"
 horizontal_alignment = 1
 
 [node name="HomeScore" type="Label" parent="CanvasLayer"]
-offset_left = 493.0
-offset_top = 53.0
-offset_right = 531.0
-offset_bottom = 95.0
+offset_left = 439.0
+offset_top = 51.0
+offset_right = 477.0
+offset_bottom = 93.0
 theme_override_fonts/font = ExtResource("7_tdruc")
 theme_override_font_sizes/font_size = 48
 text = "0"
