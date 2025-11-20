@@ -1,30 +1,29 @@
-[gd_scene load_steps=4 format=3 uid="uid://cso60hihmbwrx"]
+[gd_scene load_steps=5 format=3 uid="uid://cso60hihmbwrx"]
 
 [ext_resource type="Script" path="res://Scripts/touch_controls.gd" id="1_5ecqw"]
-
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_mkk4t"]
-
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_o4p5u"]
+[ext_resource type="Texture2D" uid="uid://b3cs2bc6aply5" path="res://Assets/Game Art/advance.PNG" id="2_5actm"]
+[ext_resource type="Texture2D" uid="uid://dby0hawm1q12d" path="res://Assets/Game Art/swingButton.PNG" id="3_bkgct"]
+[ext_resource type="Texture2D" uid="uid://34sc7s2fidj7" path="res://Assets/Game Art/return.PNG" id="3_dpseq"]
 
 [node name="TouchControls" type="CanvasLayer"]
 script = ExtResource("1_5ecqw")
 
 [node name="Advance" type="TouchScreenButton" parent="."]
-position = Vector2(1024, 523)
-scale = Vector2(78.049, 80)
-texture_normal = SubResource("PlaceholderTexture2D_mkk4t")
+position = Vector2(1000, 487)
+scale = Vector2(0.0745967, 0.0718146)
+texture_normal = ExtResource("2_5actm")
 action = "advanceRunners"
 
 [node name="Return" type="TouchScreenButton" parent="."]
-position = Vector2(880, 523)
-scale = Vector2(80, 80)
-texture_normal = SubResource("PlaceholderTexture2D_o4p5u")
+position = Vector2(830, 487)
+scale = Vector2(0.0710685, 0.0723765)
+texture_normal = ExtResource("3_dpseq")
 action = "returnRunners"
 
 [node name="Swing" type="TouchScreenButton" parent="."]
-position = Vector2(7, 509)
-scale = Vector2(126, 135)
-texture_normal = SubResource("PlaceholderTexture2D_o4p5u")
+position = Vector2(-14, 457)
+scale = Vector2(0.0958333, 0.102679)
+texture_normal = ExtResource("3_bkgct")
 action = "swing"
 
 [connection signal="pressed" from="Advance" to="." method="_on_advance_pressed"]
