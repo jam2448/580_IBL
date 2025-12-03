@@ -20,6 +20,7 @@ var rest_rotation := 0.0
 @onready var controls = get_node("../Control/TouchControls")
 @onready var gameManager = get_node("%GameManager")
 @onready var hitRange = $Area2D
+@onready var out_sound: AudioStreamPlayer2D = $OutSound
 
 # Reference to the bat
 @export var batScene: PackedScene
@@ -125,6 +126,7 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		gameManager.playLabel.global_position = global_position
 		gameManager.playLabel.global_position.y -= 45
 		gameManager.playLabel.text = "OUT!"
+		out_sound.play()
 		gameManager.playMade = true
 		await get_tree().create_timer(1).timeout
 		gameManager.reset()

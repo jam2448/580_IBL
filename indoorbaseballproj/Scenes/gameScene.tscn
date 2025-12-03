@@ -1,14 +1,17 @@
-[gd_scene load_steps=27 format=3 uid="uid://ch8h73shj8bmj"]
+[gd_scene load_steps=26 format=3 uid="uid://ch8h73shj8bmj"]
 
 [ext_resource type="PackedScene" uid="uid://b8ecnkfc65q3" path="res://Scenes/batter.tscn" id="1_snma1"]
 [ext_resource type="Script" path="res://Scripts/front_wall.gd" id="2_slvpn"]
 [ext_resource type="PackedScene" uid="uid://cso60hihmbwrx" path="res://Scenes/touch_conrrols.tscn" id="2_wao6q"]
+[ext_resource type="AudioStream" uid="uid://d13gicoejeh8f" path="res://Assets/Game Sounds/ballBounce.mp3" id="3_2quq8"]
 [ext_resource type="PackedScene" uid="uid://cq46oi4vm01gs" path="res://Scenes/ghost_runner.tscn" id="3_83gm0"]
+[ext_resource type="Texture2D" uid="uid://d4l4j474dipk2" path="res://Assets/Game Art/walls.PNG" id="3_e1xyt"]
 [ext_resource type="PackedScene" uid="uid://dfqkruki0gsy7" path="res://Scenes/base.tscn" id="3_t7pfu"]
 [ext_resource type="Script" path="res://Scripts/game_manager.gd" id="4_4mkok"]
 [ext_resource type="Script" path="res://Scripts/camera.gd" id="4_orq80"]
 [ext_resource type="Script" path="res://Scripts/floor.gd" id="4_rcga1"]
 [ext_resource type="Script" path="res://Scripts/back_wall.gd" id="4_w5ul7"]
+[ext_resource type="AudioStream" uid="uid://mpf1hfdjt8yq" path="res://Assets/Game Sounds/runScored.mp3" id="5_1n5wq"]
 [ext_resource type="PackedScene" uid="uid://c4fuudd1n6kqx" path="res://Scenes/pitcherAI.tscn" id="5_lula8"]
 [ext_resource type="PackedScene" uid="uid://dwv5vjo0xkpfw" path="res://Scenes/strikeZone.tscn" id="6_4r4bg"]
 [ext_resource type="FontFile" uid="uid://b0p1a6xq0ixlv" path="res://Assets/fonts/fonts/Ithaca-LVB75.ttf" id="7_tdruc"]
@@ -22,15 +25,11 @@ size = Vector2(237, 8)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gh6db"]
 size = Vector2(237, 8)
 
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_b8uwo"]
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_st4rl"]
 size = Vector2(238.049, 7.87148)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ddfje"]
 size = Vector2(238.066, 7.87149)
-
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_deb53"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_3j1hm"]
 friction = 0.5
@@ -43,8 +42,6 @@ size = Vector2(537, 12)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dorem"]
 size = Vector2(537, 11)
 
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_pkffm"]
-
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_x8c6q"]
 friction = 0.0
 bounce = 0.3
@@ -52,18 +49,17 @@ bounce = 0.3
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7ffbn"]
 size = Vector2(527, 10)
 
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_8qbbg"]
-
 [node name="Node2D" type="Node2D"]
 
 [node name="Camera2D" type="Camera2D" parent="." node_paths=PackedStringArray("home_plate")]
 unique_name_in_owner = true
-position = Vector2(66, -46)
-zoom = Vector2(2.2, 2.2)
+position = Vector2(54, -49)
+zoom = Vector2(2.3, 2.3)
 position_smoothing_enabled = true
 position_smoothing_speed = 2.0
 script = ExtResource("4_orq80")
 home_plate = NodePath("../homePlate")
+follow_speed = 3.2
 
 [node name="frontWall" type="StaticBody2D" parent="."]
 position = Vector2(330, -94)
@@ -87,9 +83,17 @@ shape = SubResource("RectangleShape2D_gh6db")
 debug_color = Color(0.82404, 0.399217, 3.85046e-07, 0.42)
 
 [node name="Sprite2D" type="Sprite2D" parent="frontWall"]
-position = Vector2(-24.7618, 2.02639)
-scale = Vector2(238.803, 9.35558)
-texture = SubResource("PlaceholderTexture2D_b8uwo")
+position = Vector2(-27.4801, 2.66749)
+scale = Vector2(0.247153, 0.0072212)
+texture = ExtResource("3_e1xyt")
+
+[node name="BounceSound" type="AudioStreamPlayer2D" parent="frontWall"]
+stream = ExtResource("3_2quq8")
+bus = &"SFX"
+
+[node name="runScored" type="AudioStreamPlayer2D" parent="frontWall"]
+stream = ExtResource("5_1n5wq")
+bus = &"SFX"
 
 [node name="backWall" type="StaticBody2D" parent="."]
 position = Vector2(-182, -75)
@@ -113,9 +117,13 @@ shape = SubResource("RectangleShape2D_ddfje")
 debug_color = Color(0.110359, 0.62201, 0.516468, 0.42)
 
 [node name="Sprite2D" type="Sprite2D" parent="backWall"]
-position = Vector2(44.4461, -8.43431)
-scale = Vector2(238.634, 8.79241)
-texture = SubResource("PlaceholderTexture2D_deb53")
+position = Vector2(46.3704, -6.68305)
+scale = Vector2(0.240235, 0.00777933)
+texture = ExtResource("3_e1xyt")
+
+[node name="BounceSound" type="AudioStreamPlayer2D" parent="backWall"]
+stream = ExtResource("3_2quq8")
+bus = &"SFX"
 
 [node name="floor" type="StaticBody2D" parent="."]
 position = Vector2(0, 1)
@@ -139,9 +147,13 @@ shape = SubResource("RectangleShape2D_dorem")
 debug_color = Color(0.110359, 0.62201, 0.516468, 0.42)
 
 [node name="Sprite2D" type="Sprite2D" parent="floor"]
-position = Vector2(71, 4)
-scale = Vector2(530, 10)
-texture = SubResource("PlaceholderTexture2D_pkffm")
+position = Vector2(61, 5.125)
+scale = Vector2(0.515121, 0.00617439)
+texture = ExtResource("3_e1xyt")
+
+[node name="BounceSound" type="AudioStreamPlayer2D" parent="floor"]
+stream = ExtResource("3_2quq8")
+bus = &"SFX"
 
 [node name="celing" type="StaticBody2D" parent="."]
 position = Vector2(60, -220)
@@ -155,9 +167,9 @@ position = Vector2(9, -23)
 shape = SubResource("RectangleShape2D_7ffbn")
 
 [node name="Sprite2D" type="Sprite2D" parent="celing"]
-position = Vector2(9.00001, -23)
-scale = Vector2(528, 10)
-texture = SubResource("PlaceholderTexture2D_8qbbg")
+position = Vector2(0.499933, -23)
+scale = Vector2(0.513609, 0.00604839)
+texture = ExtResource("3_e1xyt")
 
 [node name="GameManager" type="Node" parent="."]
 unique_name_in_owner = true

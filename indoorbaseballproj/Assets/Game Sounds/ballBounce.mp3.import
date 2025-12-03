@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://d13gicoejeh8f"
+path="res://.godot/imported/ballBounce.mp3-5ec3def07d997499197bc16d6d2c822b.mp3str"
+
+[deps]
+
+source_file="res://Assets/Game Sounds/ballBounce.mp3"
+dest_files=["res://.godot/imported/ballBounce.mp3-5ec3def07d997499197bc16d6d2c822b.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

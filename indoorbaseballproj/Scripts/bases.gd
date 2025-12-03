@@ -6,6 +6,8 @@ extends Area2D
 @onready var gameManager = get_node("../GameManager")
 @onready var timer = gameManager.get_node("Timer")
 @onready var safeArea = $safeArea
+@onready var out_sound: AudioStreamPlayer2D = $OutSound
+@onready var increase_score: AudioStreamPlayer2D = $IncreaseScore
 
 var onSecond = false
 
@@ -20,6 +22,7 @@ func _process(_delta: float) -> void:
 			gameManager.playLabel.global_position.x = batter.targetbase.x 
 			gameManager.playMade = true
 			gameManager.playLabel.text = "Out!"
+			out_sound.play() #play the sound
 			await get_tree().create_timer(1.5).timeout
 			gameManager.reset()
 	pass
@@ -29,6 +32,7 @@ func _on_body_entered(_body: Node2D) -> void:
 	if self.name == "homePlate" && batter.currentBase != self.position:
 		gameManager.increaseScore(1)
 		batter.hasScored = true
+		increase_score.play(0.01)
 		#gameManager.reset()
 		
 	#if the ghost runner scores, add the score and delete them
@@ -36,6 +40,7 @@ func _on_body_entered(_body: Node2D) -> void:
 		gameManager.increaseScore(1)
 		gameManager.runnerOn = false
 		gameManager.ghost_instance.queue_free()
+		increase_score.play(0.01)
 		print("ghost runner scored!")
 
 
@@ -55,6 +60,7 @@ func _on_safe_area_body_entered(_body: Node2D) -> void:
 		batter.isSafe = true
 		gameManager.playLabel.global_position.x = batter.targetbase.x 
 		gameManager.playLabel.text = "Safe!"
+		
 	elif _body == pitcher and pitcher.isFielded and global_position.distance_to(batter.targetbase) < 10:
 		#if the pitcher touches the base that the batter is running to call them out and reset
 		await get_tree().process_frame 
@@ -62,6 +68,7 @@ func _on_safe_area_body_entered(_body: Node2D) -> void:
 			gameManager.playLabel.global_position.x = batter.targetbase.x 
 			gameManager.playLabel.text = "Out!"
 			gameManager.playMade = true
+			out_sound.play() #play the sound
 			await get_tree().create_timer(1.5).timeout
 			gameManager.reset()
 		else:

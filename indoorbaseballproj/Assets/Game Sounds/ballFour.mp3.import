@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dnxrljhmet5h4"
+path="res://.godot/imported/ballFour.mp3-205dc9a1f727f20306b1e7993d3b321e.mp3str"
+
+[deps]
+
+source_file="res://Assets/Game Sounds/ballFour.mp3"
+dest_files=["res://.godot/imported/ballFour.mp3-205dc9a1f727f20306b1e7993d3b321e.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

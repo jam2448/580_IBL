@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://umy6g5twoxr3"
+path="res://.godot/imported/fieldedBall.mp3-3eac22683bfcab054ae3fe6f8c0ae16a.mp3str"
+
+[deps]
+
+source_file="res://Assets/Game Sounds/fieldedBall.mp3"
+dest_files=["res://.godot/imported/fieldedBall.mp3-3eac22683bfcab054ae3fe6f8c0ae16a.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

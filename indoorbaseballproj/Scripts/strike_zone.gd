@@ -4,6 +4,8 @@ extends Area2D
 @onready var gameManager = get_node("../GameManager")
 @onready var gameball = get_node("../gameBall")
 var direction = Vector2.DOWN
+@onready var pitch_sound: AudioStreamPlayer2D = $PitchSound
+@onready var ball_four: AudioStreamPlayer2D = $ballFour
 
 var isStrike := false #flag for determing strikes
 var isHit := false
@@ -29,6 +31,7 @@ func _on_body_entered(_body: Node2D) -> void:
 			return
 		
 		#stop the ball and call a strike
+		pitch_sound.play(0.02) #play the sound
 		var ball = _body as RigidBody2D
 		ball.set_collision_mask_value(2,false)
 		ball.gravity_scale = 0
@@ -39,7 +42,7 @@ func _on_body_entered(_body: Node2D) -> void:
 		
 		#move the playlabel and tell the batter that a strike was called
 		gameManager.playLabel.global_position = global_position
-		gameManager.playLabel.global_position.y += 7
+		gameManager.playLabel.global_position.y += 10
 		gameManager.playLabel.global_position.x -= 5
 		gameManager.playLabel.text = "Strike!"
 		isHit = true
@@ -55,6 +58,7 @@ func _on_backstop_body_entered(body: Node2D) -> void:
 	if gameManager.didSwing:
 		if body is RigidBody2D && gameManager.hitBall == false && isHit == false:
 			#stop the ball and call a strike
+			pitch_sound.play(0.02) #play the sound
 			var ball = body as RigidBody2D
 			ball.set_collision_mask_value(2,false)
 			ball.gravity_scale = 0
@@ -65,7 +69,7 @@ func _on_backstop_body_entered(body: Node2D) -> void:
 			
 			#move the playlabel and tell the batter that a strike was called
 			gameManager.playLabel.global_position = global_position
-			gameManager.playLabel.global_position.y += 7
+			gameManager.playLabel.global_position.y += 10
 			gameManager.playLabel.global_position.x -= 5
 			gameManager.playLabel.text = "Strike!"
 			isHit = true
@@ -78,12 +82,16 @@ func _on_backstop_body_entered(body: Node2D) -> void:
 		if body is RigidBody2D:
 			body.set_collision_mask_value(2,false)
 			gameManager.playLabel.global_position = global_position
-			gameManager.playLabel.global_position.y += 7
+			gameManager.playLabel.global_position.y += 10
 			gameManager.playLabel.global_position.x -= 5
 			gameManager.playLabel.text = "Ball!"
 			gameManager.balls += 1
 			gameManager.count_label.text = str(gameManager.balls) + "-" + str(gameManager.strikes)
 			
+			if gameManager.balls == 4:
+				ball_four.play()
+			else:
+				pitch_sound.play(0.02)
 			#stop the ball from moving 
 			var ball = body as RigidBody2D
 			ball.linear_velocity = Vector2.RIGHT

@@ -12,3 +12,8 @@ var direction = Vector2.LEFT
 func _ready() -> void:
 	linear_velocity = direction.normalized() * speed
 	set_collision_mask_value(1, false)
+
+
+func _on_body_entered(body: Node) -> void:
+	print("entered body entered")
+	pass # Replace with function body.

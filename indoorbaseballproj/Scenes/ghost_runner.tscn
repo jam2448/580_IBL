@@ -1,8 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://cq46oi4vm01gs"]
+[gd_scene load_steps=5 format=3 uid="uid://cq46oi4vm01gs"]
 
 [ext_resource type="Script" path="res://Scripts/ghostRunner.gd" id="1_lehm7"]
-
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_3n4hv"]
+[ext_resource type="Texture2D" uid="uid://dhud32xvo77jd" path="res://Assets/Game Art/ghostRunner.PNG" id="2_0lws7"]
+[ext_resource type="AudioStream" uid="uid://bywj20sfhfub6" path="res://Assets/Game Sounds/ghostRunnerSpawn.mp3" id="3_xxuql"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6m7uy"]
 size = Vector2(7.5, 25)
@@ -13,10 +13,14 @@ collision_mask = 16
 script = ExtResource("1_lehm7")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(7.10543e-15, -13)
-scale = Vector2(5.875, 24.875)
-texture = SubResource("PlaceholderTexture2D_3n4hv")
+position = Vector2(5.96046e-08, -12)
+scale = Vector2(0.0135301, 0.016153)
+texture = ExtResource("2_0lws7")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -13)
 shape = SubResource("RectangleShape2D_6m7uy")
+
+[node name="SpawnSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_xxuql")
+bus = &"SFX"

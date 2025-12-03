@@ -1,6 +1,7 @@
 extends CharacterBody2D
 
 # Get references after the scene is ready
+@onready var spawn_sound: AudioStreamPlayer2D = $SpawnSound
 @onready var gameManager = get_node("../GameManager")
 @onready var second: Node2D = null
 var isSafe := true
@@ -9,7 +10,8 @@ var speed = 35.0
 var hasMoved := false
 
 func _ready() -> void:
-	modulate.a = 0.3
+	modulate.a = 0.5
+	spawn_sound.play()
 
 	# Make sure the GameManager reference exists first
 	if gameManager:

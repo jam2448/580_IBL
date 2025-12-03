@@ -9,6 +9,8 @@ var direction = Vector2.LEFT
 @onready var gameManager = get_node("%GameManager")
 @onready var GMTimer = get_node("../GameManager/Timer")
 @onready var floor = get_node("../floor")
+@onready var out_sound: AudioStreamPlayer2D = $OutSound
+@onready var fielded_sound: AudioStreamPlayer2D = $fieldedSound
 
 var currentBall: RigidBody2D = null
 
@@ -23,6 +25,8 @@ var isReady := true
 var hasThrown := false #has he pitcher thrown the ball outside of piching
 var isPickedUp = false #has the piutcher picked up the ball
 var pitcherStartPos : Vector2
+var outSoundPlayed = false
+var fieldedSoundPlayed = false
 @onready var releasePoint = $ReleasePoint
 @onready var fieldingArea = $FieldingRange
 
@@ -75,11 +79,14 @@ func _physics_process(delta: float) -> void:
 	if isFielded:
 		currentBall.set_collision_mask_value(1,true)
 		#if the pitcher contacts the ball before it hits the ground, the batter is out 
-		if floor.hasBounced == false:
+		if not floor.hasBounced and not outSoundPlayed:
+			outSoundPlayed = true   
 			gameManager.playLabel.global_position.x = batter.targetbase.x - 15
 			gameManager.playMade = true
 			velocity.x = 0
 			gameManager.playLabel.text = "Out!"
+			out_sound.play()
+
 			await get_tree().create_timer(0.75).timeout
 			gameManager.reset()
 		
@@ -107,6 +114,7 @@ func _physics_process(delta: float) -> void:
 					var throw_speed = 350.0  # Adjust for your game’s scale
 					currentBall.linear_velocity = throwDirection * throw_speed
 					isFielded = false
+					fieldedSoundPlayed = false
 					isChasing = true
 					hasThrown = true
 					#slow the pitcher down 
@@ -133,8 +141,11 @@ func _process(_delta: float) -> void:
 	
 	#if the ball is fielded and it is the correct ball attach it to the release point
 	if isFielded && currentBall:
-		#print("setting the ball position to releasePoint")
+		if !fieldedSoundPlayed && floor.hasBounced:
+			fielded_sound.play()
+			fieldedSoundPlayed = true
 		currentBall.global_position = releasePoint.global_position
+		
 		isPickedUp = true
 	pass
 
@@ -145,6 +156,8 @@ func restartTimer():
 	isFielded = false
 	isChasing = false
 	hasThrown = false
+	outSoundPlayed = false
+	fieldedSoundPlayed = false
 	$Timer.start()
 
  #when the bat emits the signal, make the Ai chase after the ball
@@ -161,12 +174,15 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		currentBall.angular_velocity = 0
 	
 	#if the pitcher has fielded the ball, and contacts the batter,and the batter is not safe they are out
-	if body == batter && isFielded && batter.isSafe == false:
-		gameManager.playMade = true
-		velocity.x = 0
-		gameManager.playLabel.text = "Out!"
-		await get_tree().create_timer(1).timeout
-		gameManager.reset()
+	if body == batter and isFielded and not batter.isSafe:
+		if not outSoundPlayed:
+			outSoundPlayed = true  # <-- prevents repeat plays
+			gameManager.playMade = true
+			velocity.x = 0
+			gameManager.playLabel.text = "Out!"
+			out_sound.play()
+			await get_tree().create_timer(1).timeout
+			gameManager.reset()
 	
 	#if the batter is safe when tagged, then they are safe
 	if(body == batter && isFielded && batter.isSafe):

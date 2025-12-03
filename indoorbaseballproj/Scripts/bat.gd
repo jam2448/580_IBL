@@ -9,6 +9,7 @@ signal contact_made(body)
 #external variables
 @onready var gameManager = get_node("/root/Node2D/GameManager")
 @onready var camera = get_node("../../../Camera2D")
+@onready var contact_sound: AudioStreamPlayer2D = $ContactSound
 
 
 # when the bat hits something
@@ -20,6 +21,8 @@ func _on_body_entered(body: Node2D) -> void:
 	# add gravity to the ball
 	#Reset balls and strikes 
 	if body is RigidBody2D:
+		#play the sound
+		contact_sound.play(0.1)
 		var ball = body as RigidBody2D
 		camera.target = ball
 		

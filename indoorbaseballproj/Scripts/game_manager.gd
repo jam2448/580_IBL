@@ -8,7 +8,7 @@ var balls := 0
 var strikes := 0
 var outs := 0
 var isTopofInning = true
-var cameraStartPos = Vector2(66, -46)
+var cameraStartPos = Vector2(54, -49)
 var timerStarted := false
 var hitBall := false
 var runnerOn := false
@@ -189,7 +189,7 @@ func reset():
 	didSwing = false
 	playMade = false
 	camera.global_position = cameraStartPos
-	camera.zoom = Vector2(2.2,2.2)
+	camera.zoom = Vector2(2.3,2.3)
 	$Timer.stop()
 
 

@@ -4,7 +4,7 @@ extends Camera2D
 @export var home_plate: Node2D      # Reference to home plate for distance checks
 @export var follow_speed := 3.0     # How smoothly the camera follows the target
 var zoom_speed := 1.5       # How quickly the camera zooms in/out
-var min_zoom := Vector2(2.2, 2.2)   # Normal zoom when the ball is close
+var min_zoom := Vector2(2.5, 2.5)   # Normal zoom when the ball is close
 var max_zoom := Vector2(1, 1)   # Zoomed out when the ball is far
 var max_distance := 1100     # Distance where zoom is fully maxed out
 
