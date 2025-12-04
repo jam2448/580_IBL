@@ -1,14 +1,16 @@
-[gd_scene load_steps=7 format=3 uid="uid://dfqkruki0gsy7"]
+[gd_scene load_steps=8 format=3 uid="uid://dfqkruki0gsy7"]
 
 [ext_resource type="Script" path="res://Scripts/bases.gd" id="1_yaupi"]
 [ext_resource type="Texture2D" uid="uid://ox0ier5r5qg1" path="res://Assets/Game Art/bases.PNG" id="2_wdx7w"]
 [ext_resource type="AudioStream" uid="uid://dbymn5ruv1d3m" path="res://Assets/Game Sounds/outSound.wav" id="3_kt4hn"]
 [ext_resource type="AudioStream" uid="uid://mpf1hfdjt8yq" path="res://Assets/Game Sounds/runScored.mp3" id="4_lwjxu"]
+[ext_resource type="AudioStream" uid="uid://bywj20sfhfub6" path="res://Assets/Game Sounds/safeSound.mp3" id="5_qgrot"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0kg6p"]
 size = Vector2(11, 17)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_b1moh"]
+size = Vector2(22, 20)
 
 [node name="Base" type="Area2D"]
 position = Vector2(0, -3)
@@ -22,7 +24,7 @@ shape = SubResource("RectangleShape2D_0kg6p")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, 4)
-scale = Vector2(0.0168378, 0.0168378)
+scale = Vector2(0.0174915, 0.0168378)
 texture = ExtResource("2_wdx7w")
 
 [node name="safeArea" type="Area2D" parent="."]
@@ -36,10 +38,17 @@ debug_color = Color(0.52654, 0.557503, 0.370898, 0.42)
 
 [node name="OutSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_kt4hn")
+volume_db = -10.0
 bus = &"SFX"
 
 [node name="IncreaseScore" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("4_lwjxu")
+bus = &"SFX"
+
+[node name="SafeSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_qgrot")
+volume_db = -20.0
+bus = &"SFX"
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]

@@ -143,6 +143,9 @@ func reset():
 	#if a K or walk occurs, reset the count
 	if strikes == 3 || balls == 4 || hitBall:
 		if balls == 4:
+			if ghost_instance:
+				increaseScore(1)
+				homePlate.increase_score.play(0.01)
 			spawnGhostRunner()
 		
 		balls = 0

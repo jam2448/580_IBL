@@ -6,6 +6,7 @@ extends Area2D
 var direction = Vector2.DOWN
 @onready var pitch_sound: AudioStreamPlayer2D = $PitchSound
 @onready var ball_four: AudioStreamPlayer2D = $ballFour
+@onready var strike_three: AudioStreamPlayer2D = $strikeThree
 
 var isStrike := false #flag for determing strikes
 var isHit := false
@@ -31,7 +32,6 @@ func _on_body_entered(_body: Node2D) -> void:
 			return
 		
 		#stop the ball and call a strike
-		pitch_sound.play(0.02) #play the sound
 		var ball = _body as RigidBody2D
 		ball.set_collision_mask_value(2,false)
 		ball.gravity_scale = 0
@@ -39,6 +39,11 @@ func _on_body_entered(_body: Node2D) -> void:
 		isStrike = true
 		gameManager.strikes += 1
 		gameManager.count_label.text = str(gameManager.balls) + "-" + str(gameManager.strikes)
+		
+		if gameManager.strikes == 3:
+			strike_three.play()
+		else:
+			pitch_sound.play(0.02)
 		
 		#move the playlabel and tell the batter that a strike was called
 		gameManager.playLabel.global_position = global_position
@@ -58,7 +63,6 @@ func _on_backstop_body_entered(body: Node2D) -> void:
 	if gameManager.didSwing:
 		if body is RigidBody2D && gameManager.hitBall == false && isHit == false:
 			#stop the ball and call a strike
-			pitch_sound.play(0.02) #play the sound
 			var ball = body as RigidBody2D
 			ball.set_collision_mask_value(2,false)
 			ball.gravity_scale = 0
@@ -66,6 +70,11 @@ func _on_backstop_body_entered(body: Node2D) -> void:
 			isStrike = true
 			gameManager.strikes += 1
 			gameManager.count_label.text = str(gameManager.balls) + "-" + str(gameManager.strikes)
+			
+			if gameManager.strikes == 3:
+				strike_three.play()
+			else:
+				pitch_sound.play(0.02)
 			
 			#move the playlabel and tell the batter that a strike was called
 			gameManager.playLabel.global_position = global_position
@@ -75,7 +84,6 @@ func _on_backstop_body_entered(body: Node2D) -> void:
 			isHit = true
 			return
 		
-	
 	#if not then call a ball 
 	if(isStrike == false && gameManager.hitBall == false && isHit == false):
 		#call a ball

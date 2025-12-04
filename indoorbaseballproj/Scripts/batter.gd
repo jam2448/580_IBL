@@ -21,6 +21,7 @@ var rest_rotation := 0.0
 @onready var gameManager = get_node("%GameManager")
 @onready var hitRange = $Area2D
 @onready var out_sound: AudioStreamPlayer2D = $OutSound
+@onready var run_sound: AudioStreamPlayer2D = $RunSound
 
 # Reference to the bat
 @export var batScene: PackedScene
@@ -57,13 +58,18 @@ func _physics_process(delta: float) -> void:
 	
 	# Move toward bases
 	if Input.is_action_pressed("advanceRunners"):
+		move_right()
 		var direction = (targetbase - global_position).normalized()
 		velocity.x = direction.x * SPEED
 	elif Input.is_action_pressed("returnRunners"):
+		move_left()
 		var direction = (currentBase - global_position).normalized()
 		velocity.x = direction.x * SPEED
 	else:
+		stop_move_left()
+		stop_move_right()
 		velocity.x = 0
+
 
 	# Trigger swing if pressed and not already swinging
 	if Input.is_action_just_pressed("swing") and not swinging:
@@ -123,8 +129,7 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		
 	#if the batter gets hit with the ball they are out 
 	if  body is RigidBody2D && gameManager.pitcher.hasThrown == true && isSafe == false:
-		gameManager.playLabel.global_position = global_position
-		gameManager.playLabel.global_position.y -= 45
+		gameManager.playLabel.global_position = global_position + Vector2(0, -20)
 		gameManager.playLabel.text = "OUT!"
 		out_sound.play()
 		gameManager.playMade = true

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Scripts/ghostRunner.gd" id="1_lehm7"]
 [ext_resource type="Texture2D" uid="uid://dhud32xvo77jd" path="res://Assets/Game Art/ghostRunner.PNG" id="2_0lws7"]
-[ext_resource type="AudioStream" uid="uid://bywj20sfhfub6" path="res://Assets/Game Sounds/ghostRunnerSpawn.mp3" id="3_xxuql"]
+[ext_resource type="AudioStream" uid="uid://dev5oxnqhvp7k" path="res://Assets/Game Sounds/gRunnerSpawnBetter.mp3" id="3_6suyk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6m7uy"]
 size = Vector2(7.5, 25)
@@ -22,5 +22,6 @@ position = Vector2(0, -13)
 shape = SubResource("RectangleShape2D_6m7uy")
 
 [node name="SpawnSound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("3_xxuql")
+stream = ExtResource("3_6suyk")
+volume_db = -12.0
 bus = &"SFX"

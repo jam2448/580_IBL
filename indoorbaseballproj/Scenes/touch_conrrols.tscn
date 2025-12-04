@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://cso60hihmbwrx"]
+[gd_scene load_steps=6 format=3 uid="uid://cso60hihmbwrx"]
 
 [ext_resource type="Script" path="res://Scripts/touch_controls.gd" id="1_5ecqw"]
 [ext_resource type="Texture2D" uid="uid://b3cs2bc6aply5" path="res://Assets/Game Art/advance.PNG" id="2_5actm"]
 [ext_resource type="Texture2D" uid="uid://dby0hawm1q12d" path="res://Assets/Game Art/swingButton.PNG" id="3_bkgct"]
 [ext_resource type="Texture2D" uid="uid://34sc7s2fidj7" path="res://Assets/Game Art/return.PNG" id="3_dpseq"]
+[ext_resource type="AudioStream" uid="uid://78x7vlplj5v7" path="res://Assets/Game Sounds/playerRun.mp3" id="5_y07sk"]
 
 [node name="TouchControls" type="CanvasLayer"]
 script = ExtResource("1_5ecqw")
@@ -25,6 +26,10 @@ position = Vector2(-22, 475)
 scale = Vector2(0.0958333, 0.102679)
 texture_normal = ExtResource("3_bkgct")
 action = "swing"
+
+[node name="PlayerRun" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_y07sk")
+volume_db = -5.0
 
 [connection signal="pressed" from="Advance" to="." method="_on_advance_pressed"]
 [connection signal="released" from="Advance" to="." method="_on_advance_released"]

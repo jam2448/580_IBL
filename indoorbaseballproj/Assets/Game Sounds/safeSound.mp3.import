@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://bywj20sfhfub6"
+path="res://.godot/imported/safeSound.mp3-90fb8acd18ff76ba97d0d8afd03580f4.mp3str"
+
+[deps]
+
+source_file="res://Assets/Game Sounds/safeSound.mp3"
+dest_files=["res://.godot/imported/safeSound.mp3-90fb8acd18ff76ba97d0d8afd03580f4.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

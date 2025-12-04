@@ -11,7 +11,7 @@ var hasMoved := false
 
 func _ready() -> void:
 	modulate.a = 0.5
-	spawn_sound.play()
+	spawn_sound.play(0.03)
 
 	# Make sure the GameManager reference exists first
 	if gameManager:

@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dev5oxnqhvp7k"
+path="res://.godot/imported/gRunnerSpawnBetter.mp3-9f473141d8f4bf01ecfcd9e2faee01f9.mp3str"
+
+[deps]
+
+source_file="res://Assets/Game Sounds/gRunnerSpawnBetter.mp3"
+dest_files=["res://.godot/imported/gRunnerSpawnBetter.mp3-9f473141d8f4bf01ecfcd9e2faee01f9.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

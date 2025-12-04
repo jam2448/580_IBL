@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://b8ecnkfc65q3"]
+[gd_scene load_steps=8 format=3 uid="uid://b8ecnkfc65q3"]
 
 [ext_resource type="Script" path="res://Scripts/batter.gd" id="1_1twed"]
 [ext_resource type="PackedScene" uid="uid://bsts53kdmt7j2" path="res://Scenes/bat.tscn" id="2_8xnyc"]
 [ext_resource type="AudioStream" uid="uid://dbymn5ruv1d3m" path="res://Assets/Game Sounds/outSound.wav" id="3_rqq4h"]
+[ext_resource type="AudioStream" uid="uid://78x7vlplj5v7" path="res://Assets/Game Sounds/playerRun.mp3" id="4_fho20"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8itq4"]
 size = Vector2(8, 30)
@@ -45,6 +46,10 @@ rotation = -0.569129
 [node name="OutSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_rqq4h")
 bus = &"SFX"
+
+[node name="RunSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_fho20")
+volume_db = -5.0
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

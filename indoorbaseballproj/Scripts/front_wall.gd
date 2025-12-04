@@ -3,6 +3,7 @@ extends StaticBody2D
 @onready var gameManager = get_node("%GameManager")
 @onready var bounce_sound: AudioStreamPlayer2D = $BounceSound
 @onready var run_scored: AudioStreamPlayer2D = $runScored
+@onready var home_run: AudioStreamPlayer2D = $homeRun
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	
@@ -11,11 +12,12 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		bounce_sound.play(0.02)
 		
 		if gameManager.floor.hasBounced == false:
-			gameManager.playLabel.global_position = body.global_position
+			gameManager.playLabel.global_position = body.global_position + Vector2(-20,0)
 			gameManager.playLabel.add_theme_font_size_override("font_size", 24)
 			gameManager.playLabel.text = "HOMERUN!!"
 			gameManager.pitcher.isChasing = false
 			gameManager.pitcher.velocity.x = 0
+			home_run.play()
 			
 			#if there was a ghost runner on base, adjust the amount of runs accordingly
 			if(gameManager.runnerOn == true):

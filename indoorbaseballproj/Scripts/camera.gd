@@ -5,8 +5,11 @@ extends Camera2D
 @export var follow_speed := 3.0     # How smoothly the camera follows the target
 var zoom_speed := 1.5       # How quickly the camera zooms in/out
 var min_zoom := Vector2(2.5, 2.5)   # Normal zoom when the ball is close
-var max_zoom := Vector2(1, 1)   # Zoomed out when the ball is far
+var max_zoom := Vector2(1.75, 1.75)   # Zoomed out when the ball is far
 var max_distance := 1100     # Distance where zoom is fully maxed out
+
+@export var min_camera_y := -49
+@export var max_camera_x := 150
 
 func _process(delta: float) -> void:
 	if not target or not is_instance_valid(target) or not home_plate:
@@ -14,7 +17,11 @@ func _process(delta: float) -> void:
 
 	# Smoothly follow the target
 	global_position = target.global_position
-
+	
+	# Clamp Y so the camera never moves below the boundary
+	global_position.y = min(global_position.y, min_camera_y)
+	global_position.x = min(global_position.x, max_camera_x)
+	
 	# Calculate distance from home plate to target (ball)
 	var distance = home_plate.global_position.distance_to(target.global_position)
 	var t = clamp(distance / max_distance, 0.0, 1.0)

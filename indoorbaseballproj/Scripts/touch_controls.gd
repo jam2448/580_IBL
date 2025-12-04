@@ -3,6 +3,7 @@ extends CanvasLayer
 #get the path to the batter in the scene and get it
 @export var player_path: NodePath
 @onready var player: CharacterBody2D = get_node(player_path)
+@onready var player_run: AudioStreamPlayer2D = $PlayerRun
 
 #Get reference to the buttons 
 @onready var advance := $Advance
