@@ -112,6 +112,8 @@ bus = &"SFX"
 
 [node name="homeRun" type="AudioStreamPlayer2D" parent="frontWall"]
 stream = ExtResource("6_gmnrb")
+volume_db = -3.0
+bus = &"SFX"
 
 [node name="backWall" type="StaticBody2D" parent="."]
 position = Vector2(-182, -75)
